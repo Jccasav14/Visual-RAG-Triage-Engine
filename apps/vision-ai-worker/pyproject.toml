@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vision-ai-worker"
+version = "1.0.0"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "redis",
+    "pillow"
+]
