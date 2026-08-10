@@ -1,0 +1,13 @@
+node_modules/
+dist/
+tmp/
+.nx/
+.env
+.env.local
+*.log
+coverage/
+__pycache__/
+*.pyc
+.pytest_cache/
+.expo/
+web-build/
