@@ -11,6 +11,8 @@
     "target": "es2022",
     "module": "commonjs",
     "lib": ["es2022", "dom"],
+    "jsx": "react-jsx",
+    "types": ["node", "jest"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
