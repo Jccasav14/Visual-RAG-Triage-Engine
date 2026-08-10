@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Card, Button, ThemeColors, Badge } from '@visual-rag/ui-components';
+import { Card, Button, ThemeColors, Badge } from './ui';
 
 export const ActionPlanViewer: React.FC<{ plan: any; onReset: () => void }> = ({ plan, onReset }) => (
   <Card style={styles.card}>

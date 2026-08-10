@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Card, Button, ThemeColors, SeverityIndicator } from '@visual-rag/ui-components';
+import { Card, Button, ThemeColors, SeverityIndicator } from '../components/ui';
 import { CameraCapture } from '../components/CameraCapture';
 import { ActionPlanViewer } from '../components/ActionPlanViewer';
 

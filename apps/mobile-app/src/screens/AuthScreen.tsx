@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { Card, Button, ThemeColors } from '@visual-rag/ui-components';
+import { Card, Button, ThemeColors } from '../components/ui';
 
 export const AuthScreen: React.FC<{ onLoginSuccess: () => void }> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Card, ThemeColors } from '@visual-rag/ui-components';
+import { Card, ThemeColors } from '../components/ui';
 
 export const PlanDetailScreen: React.FC<{ plan: any }> = ({ plan }) => (
   <Card style={styles.card}>

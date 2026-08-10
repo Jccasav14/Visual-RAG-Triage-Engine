@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { Card, ThemeColors, SeverityIndicator } from '@visual-rag/ui-components';
+import { Card, ThemeColors, SeverityIndicator } from '../components/ui';
 
 const MOCK_HISTORY = [
   { id: 'tkt_101', date: '2026-08-09', severity: 'CRITICAL', label: 'Wound Disruption' },

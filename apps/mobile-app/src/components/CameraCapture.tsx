@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Button, ThemeColors } from '@visual-rag/ui-components';
+import { Button, ThemeColors } from './ui';
 
 export const CameraCapture: React.FC<{ onCapture: () => void }> = ({ onCapture }) => (
   <View style={styles.box}>

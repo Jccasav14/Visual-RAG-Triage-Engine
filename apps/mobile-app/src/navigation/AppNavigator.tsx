@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { AuthScreen } from '../screens/AuthScreen';
 import { TriageScreen } from '../screens/TriageScreen';
 import { HistoryScreen } from '../screens/HistoryScreen';
-import { Button } from '@visual-rag/ui-components';
+import { Button } from '../components/ui';
 
 export const AppNavigator: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

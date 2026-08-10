@@ -1,6 +1,6 @@
 import React from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
-import { ThemeColors } from '@visual-rag/ui-components';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { ThemeColors } from './src/components/ui';
 import { AppNavigator } from './src/navigation/AppNavigator';
 
 export default function App() {
