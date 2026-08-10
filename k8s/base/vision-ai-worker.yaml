@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vision-ai-worker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vision-ai-worker
+  template:
+    metadata:
+      labels:
+        app: vision-ai-worker
+    spec:
+      containers:
+      - name: vision-ai-worker
+        image: visual-rag/vision-ai-worker:latest
+        ports:
+        - containerPort: 8000
