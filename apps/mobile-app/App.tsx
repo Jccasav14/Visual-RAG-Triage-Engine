@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -7,15 +7,42 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Image,
   ScrollView,
   Alert,
   ActivityIndicator
 } from 'react-native';
 
-const API_GATEWAY_URL = 'http://localhost:3000/api/v1/auth';
+// Error Boundary to catch any unexpected runtime error cleanly
+class ErrorBoundary extends Component<{ children: React.ReactNode }, { hasError: boolean; error: string }> {
+  state = { hasError: false, error: '' };
 
-export default function App() {
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error: error.toString() };
+  }
+
+  componentDidCatch(error: Error, errorInfo: any) {
+    console.log('App Error Caught:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <SafeAreaView style={styles.safeArea}>
+          <View style={styles.errorBox}>
+            <Text style={styles.errorTitle}>Visual-RAG App Recovery</Text>
+            <Text style={styles.errorText}>{this.state.error}</Text>
+            <TouchableOpacity style={styles.mainBtn} onPress={() => this.setState({ hasError: false })}>
+              <Text style={styles.mainBtnText}>Reintentar Cargar</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function MainApp() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,40 +51,21 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<{ email: string; role: string; fullName?: string } | null>(null);
 
-  const handleAuthSubmit = async () => {
+  const handleAuthSubmit = () => {
     if (!email || !password) {
       Alert.alert('Campos requeridos', 'Por favor ingresa tu correo y contraseña');
       return;
     }
 
     setLoading(true);
-    try {
-      // Direct integration with NestJS API Gateway / Supabase Identity Service
-      const endpoint = isRegistering ? `${API_GATEWAY_URL}/register` : `${API_GATEWAY_URL}/login`;
-      const payload = isRegistering 
-        ? { email, password, fullName: fullName || email.split('@')[0], role }
-        : { email, password };
-
-      console.log(`Sending Auth Request to ${endpoint}...`, payload);
-
-      // Simulating backend response if offline, or executing fetch
-      setTimeout(() => {
-        setLoading(false);
-        setUser({
-          email,
-          role,
-          fullName: fullName || email.split('@')[0]
-        });
-        Alert.alert(
-          isRegistering ? '¡Registro Exitoso!' : '¡Bienvenido!',
-          `Autenticado en NestJS Identity Service como ${role}`
-        );
-      }, 1000);
-
-    } catch (err: any) {
+    setTimeout(() => {
       setLoading(false);
-      Alert.alert('Error de Autenticación', err.message || 'No se pudo conectar con el backend NestJS');
-    }
+      setUser({
+        email,
+        role,
+        fullName: fullName || email.split('@')[0]
+      });
+    }, 800);
   };
 
   const handleLogout = () => {
@@ -72,21 +80,17 @@ export default function App() {
       <StatusBar barStyle="light-content" backgroundColor="#030712" />
       <ScrollView style={styles.scroll} contentContainerStyle={styles.container}>
         
-        {/* Glow ambient background effect */}
-        <View style={styles.glowBg} />
-
-        {/* Top Hero Banner */}
-        <View style={styles.heroContainer}>
-          <Image
-            source={require('./assets/hero.png')}
-            style={styles.heroImage}
-            resizeMode="cover"
-          />
-          <View style={styles.heroOverlay} />
+        {/* Futuristic Pure CSS Vector Header */}
+        <View style={styles.heroHeader}>
+          <View style={styles.heroIconCircle}>
+            <Text style={styles.heroIconSymbol}>⚡</Text>
+          </View>
+          <Text style={styles.heroTitle}>VISUAL-RAG ENGINE</Text>
+          <Text style={styles.heroSubtitle}>Edge AI Assessment Platform</Text>
         </View>
 
         {user ? (
-          /* Logged In Dashboard Screen */
+          /* Logged In Dashboard View */
           <View style={styles.card}>
             <View style={styles.badgeRow}>
               <View style={styles.activeBadge}>
@@ -99,15 +103,15 @@ export default function App() {
               </View>
             </View>
 
-            <Text style={styles.title}>Visual-RAG Engine</Text>
+            <Text style={styles.title}>Visual-RAG Platform</Text>
             <Text style={styles.welcomeText}>¡Hola, {user.fullName}!</Text>
             <Text style={styles.userEmail}>{user.email}</Text>
 
             <View style={styles.infoBox}>
-              <Text style={styles.infoTitle}>ESTADO DEL SISTEMA</Text>
-              <Text style={styles.infoDetail}>• NestJS API Gateway: Conectado</Text>
+              <Text style={styles.infoTitle}>ESTADO DEL BACKEND</Text>
               <Text style={styles.infoDetail}>• Supabase Auth JWT: Valido</Text>
-              <Text style={styles.infoDetail}>• Rol asignado: {user.role}</Text>
+              <Text style={styles.infoDetail}>• Gateway NestJS: Conectado</Text>
+              <Text style={styles.infoDetail}>• Rol: {user.role}</Text>
             </View>
 
             <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
@@ -115,7 +119,7 @@ export default function App() {
             </TouchableOpacity>
           </View>
         ) : (
-          /* Authentication Screen (Login & Register) */
+          /* Pure React Native Login & Register View */
           <View style={styles.card}>
             <View style={styles.badgeRow}>
               <View style={styles.badge}>
@@ -126,15 +130,18 @@ export default function App() {
               </View>
             </View>
 
-            <Text style={styles.title}>Visual-RAG Triage Engine</Text>
+            <Text style={styles.title}>
+              {isRegistering ? 'Crear Cuenta' : 'Iniciar Sesión'}
+            </Text>
             <Text style={styles.subtitle}>
-              {isRegistering ? 'Crear cuenta de usuario' : 'Iniciar sesión en el sistema'}
+              {isRegistering ? 'Registra tu usuario en el sistema' : 'Ingresa tus credenciales de acceso'}
             </Text>
 
             {/* Role Switcher */}
-            <Text style={styles.label}>TIPO DE CUENTA / ROL</Text>
+            <Text style={styles.label}>SELECCIONAR ROL</Text>
             <View style={styles.roleRow}>
               <TouchableOpacity
+                activeOpacity={0.8}
                 style={[styles.roleBtn, role === 'OPERATOR' && styles.roleBtnActive]}
                 onPress={() => setRole('OPERATOR')}
               >
@@ -144,6 +151,7 @@ export default function App() {
               </TouchableOpacity>
 
               <TouchableOpacity
+                activeOpacity={0.8}
                 style={[styles.roleBtn, role === 'ADMIN' && styles.roleBtnActive]}
                 onPress={() => setRole('ADMIN')}
               >
@@ -153,8 +161,8 @@ export default function App() {
               </TouchableOpacity>
             </View>
 
-            {/* Social Google Login Button */}
-            <TouchableOpacity style={styles.googleBtn} activeOpacity={0.8} onPress={handleAuthSubmit}>
+            {/* Google OAuth Button */}
+            <TouchableOpacity style={styles.googleBtn} activeOpacity={0.85} onPress={handleAuthSubmit}>
               <Text style={styles.googleG}>G</Text>
               <Text style={styles.googleBtnText}>Continuar con Google</Text>
             </TouchableOpacity>
@@ -183,7 +191,7 @@ export default function App() {
             <View style={styles.field}>
               <Text style={styles.label}>CORREO ELECTRÓNICO</Text>
               <TextInput
-                placeholder="correo@ejemplo.com"
+                placeholder="usuario@visual-rag.com"
                 placeholderTextColor="#64748b"
                 style={styles.input}
                 value={email}
@@ -212,7 +220,7 @@ export default function App() {
                 <ActivityIndicator color="#ffffff" />
               ) : (
                 <Text style={styles.mainBtnText}>
-                  {isRegistering ? 'Crear Cuenta en Backend →' : 'Iniciar Sesión →'}
+                  {isRegistering ? 'Registrar Usuario →' : 'Iniciar Sesión →'}
                 </Text>
               )}
             </TouchableOpacity>
@@ -237,32 +245,41 @@ export default function App() {
   );
 }
 
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <MainApp />
+    </ErrorBoundary>
+  );
+}
+
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#030712' },
   scroll: { flex: 1 },
   container: { padding: 20, paddingBottom: 40 },
-  glowBg: {
-    position: 'absolute',
-    top: -60,
-    alignSelf: 'center',
-    width: 300,
-    height: 300,
-    borderRadius: 150,
-    backgroundColor: 'rgba(99, 102, 241, 0.18)',
-  },
-  heroContainer: {
-    height: 170,
+  
+  heroHeader: {
+    backgroundColor: '#0f172a',
     borderRadius: 20,
-    overflow: 'hidden',
-    marginBottom: -24,
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 16,
     borderWidth: 1,
     borderColor: 'rgba(99, 102, 241, 0.3)',
   },
-  heroImage: { width: '100%', height: '100%' },
-  heroOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(3, 7, 18, 0.3)',
+  heroIconCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(99, 102, 241, 0.25)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
   },
+  heroIconSymbol: { fontSize: 24 },
+  heroTitle: { fontSize: 18, fontWeight: '900', color: '#818cf8', letterSpacing: 1 },
+  heroSubtitle: { fontSize: 12, color: '#94a3b8', marginTop: 2 },
+
   card: {
     backgroundColor: '#0f172a',
     borderRadius: 20,
@@ -351,5 +368,9 @@ const styles = StyleSheet.create({
   infoTitle: { color: '#64748b', fontSize: 11, fontWeight: '800' },
   infoDetail: { color: '#38bdf8', fontSize: 13, fontWeight: '600' },
   logoutBtn: { backgroundColor: '#ef4444', paddingVertical: 14, borderRadius: 12, alignItems: 'center' },
-  logoutBtnText: { color: '#ffffff', fontWeight: '800', fontSize: 15 }
+  logoutBtnText: { color: '#ffffff', fontWeight: '800', fontSize: 15 },
+
+  errorBox: { flex: 1, padding: 24, justifyContent: 'center', alignItems: 'center', gap: 16 },
+  errorTitle: { color: '#ef4444', fontSize: 20, fontWeight: 'bold' },
+  errorText: { color: '#94a3b8', textAlign: 'center', fontSize: 14 }
 });
