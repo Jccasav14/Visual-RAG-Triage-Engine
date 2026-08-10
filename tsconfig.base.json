@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "commonjs",
+    "lib": ["es2022", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@visual-rag/shared-types": ["libs/shared/types/src/index.ts"],
+      "@visual-rag/redis-contract": ["libs/shared/redis-contract/src/index.ts"],
+      "@visual-rag/supabase": ["libs/shared/supabase/src/index.ts"],
+      "@visual-rag/ui-components": ["libs/shared/ui-components/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
