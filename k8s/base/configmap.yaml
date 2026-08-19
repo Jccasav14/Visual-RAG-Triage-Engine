@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: visual-rag-config
-data:
-  NODE_ENV: "production"
-  REDIS_HOST: "redis-service"
