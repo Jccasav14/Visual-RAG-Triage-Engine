@@ -1,0 +1,70 @@
+:root {
+  --bg-warm: #FAF9F6;
+  --bg-card: #FFFFFF;
+  --bg-secondary: #F4F1EA;
+  --text-main: #2B2D42;
+  --text-muted: #6C757D;
+  --primary-teal: #2A9D8F;
+  --primary-teal-hover: #218377;
+  --primary-teal-light: #EBF6F5;
+  --accent-coral: #E07A5F;
+  --accent-amber: #F4A261;
+  --border-light: #E9E5DD;
+  --shadow-subtle: 0 10px 30px rgba(43, 45, 66, 0.05);
+  --shadow-medium: 0 15px 35px rgba(42, 157, 143, 0.1);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-warm);
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+button {
+  font-family: var(--font-family);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+input, select, textarea {
+  font-family: var(--font-family);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-warm);
+}
+::-webkit-scrollbar-thumb {
+  background: #D8D3C8;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C4BEB2;
+}
