@@ -1,13 +1,53 @@
+# Dependencies
 node_modules/
+/.pnp
+.pnp.js
+
+# Large archives & Datasets
+*.zip
+*.tar.gz
+*.7z
+
+# Build outputs
 dist/
-tmp/
-.nx/
+build/
+*.tsbuildinfo
+
+# Python / Virtual Environment
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+*.egg-info/
+
+# Local databases
+*.sqlite
+*.sqlite3
+*.db
+
+# Environment variables
 .env
 .env.local
-*.log
-coverage/
-__pycache__/
-*.pyc
-.pytest_cache/
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Expo / Mobile artifacts
 .expo/
+.expo-shared/
 web-build/
+
+# Logs & Temporary files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+scratch/
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
