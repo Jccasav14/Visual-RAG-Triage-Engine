@@ -1,4 +1,4 @@
-# 🔑 Identity & Access Management Service
+# Identity and Access Management Service
 
 [![Service](https://img.shields.io/badge/Service-Identity%20Service-blue.svg)](#)
 [![Port](https://img.shields.io/badge/Port-3001-green.svg)](#)
@@ -9,22 +9,22 @@ The **Identity Service** manages authentication, cryptographic authorization tok
 
 ---
 
-## 🏗️ Architecture & Responsibilities
+## Architecture and Responsibilities
 
 - **Authentication**: Validates user credentials with case-insensitive email parsing and salted bcrypt hash comparison.
-- **Token Minting**: Issues short-lived and cryptographically signed JWT access tokens containing user claims (`sub`, `email`, `role`).
+- **Token Minting**: Issues cryptographically signed JWT access tokens containing user claims (`sub`, `email`, `role`).
 - **Role-Based Access Control**: Differentiates capabilities between `DOCTOR` (Surgeon) and `PATIENT` roles.
 - **Patient Relationship Management**: Handles doctor-patient associations (`doctorId` foreign keys) and search queries by national ID (Cédula), Name, or Email.
 
 ---
 
-## 📡 REST API Endpoints
+## REST API Endpoints
 
 ### Authentication Routes (`/auth`)
 - `POST /auth/login` - Authenticates user with `{ email, password }` and returns `{ access_token, user }`.
 - `POST /auth/register` - Registers a new user with role and profile metadata.
 
-### User & Directory Routes (`/users`)
+### User and Directory Routes (`/users`)
 - `GET /users/patients` - Retrieves all registered postoperative patients.
 - `GET /users/search-patients?q=:query` - Searches patients by national ID (Cédula), name, or email.
 - `GET /users/doctor-patients/:doctorId` - Retrieves patients currently assigned to a given surgeon.
@@ -35,7 +35,7 @@ The **Identity Service** manages authentication, cryptographic authorization tok
 
 ---
 
-## ⚙️ Configuration & Environment Variables
+## Configuration and Environment Variables
 
 | Variable | Default | Description |
 | :--- | :--- | :--- |
@@ -49,7 +49,7 @@ The **Identity Service** manages authentication, cryptographic authorization tok
 
 ---
 
-## 🚀 Running the Service
+## Running the Service
 
 ```bash
 # Development mode

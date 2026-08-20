@@ -1,4 +1,4 @@
-# 📋 Triage Core Service
+# Triage Core Service
 
 [![Service](https://img.shields.io/badge/Service-Triage%20Core%20Service-blue.svg)](#)
 [![Port](https://img.shields.io/badge/Port-3002-green.svg)](#)
@@ -9,7 +9,7 @@ The **Triage Core Service** is the central clinical repository of the Visual-RAG
 
 ---
 
-## 🏗️ Architecture & Entities
+## Architecture and Entities
 
 - **Medical Restrictions (`medical_restrictions`)**:
   - Stores surgeon-authored recovery parameters: `surgeryType`, `startDate`, `endDate`, `restDays`, `prohibitions`, `allowedActions`, `emergencyThresholds`, `allergies`, and follow-up appointment dates.
@@ -20,13 +20,13 @@ The **Triage Core Service** is the central clinical repository of the Visual-RAG
 
 ---
 
-## 📡 REST API Endpoints
+## REST API Endpoints
 
 ### Clinical Restrictions (`/triage/medical-restrictions`)
 - `POST /triage/medical-restrictions` - Creates or updates a patient's post-op recovery directive ficha.
 - `GET /triage/patient-restrictions/:patientId` - Retrieves active surgeon directives for a specific patient.
 
-### Triage Evaluations & Daily Reports (`/triage/daily-reports`)
+### Triage Evaluations and Daily Reports (`/triage/daily-reports`)
 - `POST /triage/evaluate` - Logs a new triage evaluation with priority rating and image reference.
 - `POST /triage/daily-reports` - Saves an evaluated daily clinical report (symptoms, classification, doctor virtual plan).
 - `GET /triage/daily-reports/:patientId` - Retrieves all historical reports for a patient.
@@ -34,7 +34,7 @@ The **Triage Core Service** is the central clinical repository of the Visual-RAG
 
 ---
 
-## ⚙️ Configuration & Environment Variables
+## Configuration and Environment Variables
 
 | Variable | Default | Description |
 | :--- | :--- | :--- |
@@ -47,7 +47,7 @@ The **Triage Core Service** is the central clinical repository of the Visual-RAG
 
 ---
 
-## 🚀 Running the Service
+## Running the Service
 
 ```bash
 # Development mode

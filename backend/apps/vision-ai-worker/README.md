@@ -1,4 +1,4 @@
-# 👁️ Vision AI Worker (FastAPI & TensorFlow)
+# Vision AI Worker (FastAPI and TensorFlow)
 
 [![Service](https://img.shields.io/badge/Service-Vision%20AI%20Worker-blue.svg)](#)
 [![Port](https://img.shields.io/badge/Port-8000-green.svg)](#)
@@ -9,7 +9,7 @@ The **Vision AI Worker** is a high-performance computer vision inference service
 
 ---
 
-## 🎯 Benchmark & Performance Telemetry
+## Benchmark and Performance Telemetry
 
 - **Classification Precision / Accuracy:** `97.4%`
 - **Model Training Loss:** `0.082`
@@ -18,7 +18,7 @@ The **Vision AI Worker** is a high-performance computer vision inference service
 
 ---
 
-## 🔬 Supported Wound Healing Categories (10 Classes)
+## Supported Wound Healing Categories (10 Classes)
 
 | ID | Class Name | Clinical Type | Severity | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -35,7 +35,7 @@ The **Vision AI Worker** is a high-performance computer vision inference service
 
 ---
 
-## 📡 REST API Endpoints
+## REST API Endpoints
 
 - `POST /vision/classify-file`
   - Accepts multipart `file` upload and optional `recovery_day` query parameter.
@@ -51,7 +51,7 @@ The **Vision AI Worker** is a high-performance computer vision inference service
 
 ---
 
-## 🚀 Running the Service
+## Running the Service
 
 ```bash
 cd backend/apps/vision-ai-worker

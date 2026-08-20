@@ -1,4 +1,4 @@
-# 🚪 API Gateway Service
+# API Gateway Service
 
 [![Service](https://img.shields.io/badge/Service-API%20Gateway-blue.svg)](#)
 [![Port](https://img.shields.io/badge/Port-3050-green.svg)](#)
@@ -9,7 +9,7 @@ The **API Gateway** acts as the single unified ingress point for external client
 
 ---
 
-## 🏗️ Architecture & Routing Table
+## Architecture and Routing Table
 
 All external HTTP requests are routed securely to internal downstream microservices:
 
@@ -23,14 +23,14 @@ All external HTTP requests are routed securely to internal downstream microservi
 
 ---
 
-## 📚 Unified Swagger API Documentation
+## Unified Swagger API Documentation
 
 When running, the API Gateway exposes an aggregated interactive Swagger interface:
 - **URL:** `http://localhost:3050/api/docs`
 
 ---
 
-## ⚙️ Configuration & Environment Variables
+## Configuration and Environment Variables
 
 | Variable | Default | Description |
 | :--- | :--- | :--- |
@@ -42,7 +42,7 @@ When running, the API Gateway exposes an aggregated interactive Swagger interfac
 
 ---
 
-## 🚀 Running the Service
+## Running the Service
 
 ```bash
 # Development mode

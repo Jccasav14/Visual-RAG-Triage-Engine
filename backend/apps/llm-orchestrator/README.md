@@ -1,4 +1,4 @@
-# 🧠 LLM Orchestrator Service (Visual-RAG Pipeline)
+# LLM Orchestrator Service (Visual-RAG Pipeline)
 
 [![Service](https://img.shields.io/badge/Service-LLM%20Orchestrator-blue.svg)](#)
 [![Port](https://img.shields.io/badge/Port-3003-green.svg)](#)
@@ -9,15 +9,15 @@ The **LLM Orchestrator** is the intelligence engine of the platform. It implemen
 
 ---
 
-## 🧬 Visual-RAG Pipeline Workflow
+## Visual-RAG Pipeline Workflow
 
 ```mermaid
 sequenceDiagram
-    participant Client as 📱 Mobile / Web
-    participant VisionAI as 👁️ Vision AI (Port 8000)
-    participant TriageCore as 📋 Triage Core (Port 3002)
-    participant Orchestrator as 🧠 LLM Orchestrator (Port 3003)
-    participant Gemini as ☁️ Gemini 2.5 Flash / Groq
+    participant Client as Mobile / Web Client
+    participant VisionAI as Vision AI Worker (Port 8000)
+    participant TriageCore as Triage Core Service (Port 3002)
+    participant Orchestrator as LLM Orchestrator (Port 3003)
+    participant Gemini as Gemini 2.5 Flash / Groq Llama 3.3
 
     Client->>VisionAI: 1. Upload Wound Photo
     VisionAI-->>Client: 2. Return Class & Severity
@@ -31,7 +31,7 @@ sequenceDiagram
 
 ---
 
-## 📡 REST API Endpoints
+## REST API Endpoints
 
 - `POST /llm/generate-personalized-plan`
   - Generates a day-specific, restriction-aware clinical report.
@@ -60,7 +60,7 @@ sequenceDiagram
 
 ---
 
-## ⚙️ Configuration & Environment Variables
+## Configuration and Environment Variables
 
 | Variable | Default | Description |
 | :--- | :--- | :--- |
@@ -71,7 +71,7 @@ sequenceDiagram
 
 ---
 
-## 🚀 Running the Service
+## Running the Service
 
 ```bash
 # Development mode

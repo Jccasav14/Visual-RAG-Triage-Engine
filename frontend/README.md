@@ -1,4 +1,4 @@
-# 💻 Web Portal (React 18 & Vite)
+# Web Portal (React 18 and Vite)
 
 [![Client](https://img.shields.io/badge/Client-Web%20Portal-blue.svg)](#)
 [![Port](https://img.shields.io/badge/Port-5173-green.svg)](#)
@@ -9,22 +9,22 @@ The **Web Portal** is a responsive web application designed for hospital worksta
 
 ---
 
-## 🎨 User Dashboards
+## User Dashboards
 
-### 1. 👨‍⚕️ Surgeon Clinical Dashboard (`DoctorDashboard.tsx`)
+### 1. Surgeon Clinical Dashboard (`DoctorDashboard.tsx`)
 - **Assigned Patients Manager**: View active surgical recovery patients, search by National ID (Cédula) or name, and manage assignments.
 - **Ficha Postoperatoria Editor**: Author and customize procedural guidelines, prohibition lists, allowed hygiene actions, and emergency alarm thresholds.
 - **Vision AI Telemetry Console**: Monitor real-time CNN model metrics (97.4% precision, ~42ms latency) and explore all 10 wound healing classifications.
 - **Professional Profile Settings**: Update medical registration numbers (MSP), surgical specialties, and hospital credentials.
 
-### 2. 👨‍🦱 Patient Telemedicine Dashboard (`PatientDashboard.tsx`)
+### 2. Patient Telemedicine Dashboard (`PatientDashboard.tsx`)
 - **Multimodal Photo Evaluator**: Upload wound photographs directly from disk or trigger device webcams.
 - **Virtual Doctor Assistant (Visual-RAG)**: Receive day-specific recovery plans synthesized by Google Gemini 2.5 Flash and Groq Llama 3.3.
 - **Dynamic Recovery Timeline**: Visual countdown of recovery days (`Day N of M`) and upcoming suture removal appointments.
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 Environment configurations are defined in `frontend/.env`:
 
@@ -38,7 +38,7 @@ VITE_VISION_URL=http://localhost:8000
 
 ---
 
-## 🚀 Running the Web Portal
+## Running the Web Portal
 
 ```bash
 cd frontend
