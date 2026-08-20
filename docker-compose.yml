@@ -1,0 +1,112 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: visual_rag_postgres
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-visual_rag_db}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: visual_rag_redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  vision-ai-worker:
+    build:
+      context: ./backend/apps/vision-ai-worker
+      dockerfile: Dockerfile
+    container_name: visual_rag_vision_ai
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+
+  identity-service:
+    build:
+      context: ./backend
+      dockerfile: apps/identity-service/Dockerfile
+    container_name: visual_rag_identity
+    ports:
+      - "3001:3001"
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE:-visual_rag_db}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  triage-core-service:
+    build:
+      context: ./backend
+      dockerfile: apps/triage-core-service/Dockerfile
+    container_name: visual_rag_triage
+    ports:
+      - "3002:3002"
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE:-visual_rag_db}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  llm-orchestrator:
+    build:
+      context: ./backend
+      dockerfile: apps/llm-orchestrator/Dockerfile
+    container_name: visual_rag_llm
+    ports:
+      - "3003:3003"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+
+  api-gateway:
+    build:
+      context: ./backend
+      dockerfile: apps/api-gateway/Dockerfile
+    container_name: visual_rag_gateway
+    ports:
+      - "3050:3050"
+    environment:
+      - PORT=3050
+
+  web-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: visual_rag_frontend
+    ports:
+      - "5173:5173"
+
+volumes:
+  postgres_data:

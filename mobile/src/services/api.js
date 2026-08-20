@@ -95,7 +95,9 @@ export const api = {
   // 2. Triage & Clinical Restrictions Microservice (Port 3002)
   getPatientRestrictions: async (patientId) => {
     try {
-      const res = await axios.get(`${getTriageUrl()}/triage/patient-restrictions/${patientId}`);
+      const res = await axios.get(`${getTriageUrl()}/triage/patient-restrictions/${patientId}`, {
+        timeout: 4000,
+      });
       return res.data;
     } catch {
       return null;
@@ -128,7 +130,9 @@ export const api = {
 
   getDailyReports: async (patientId) => {
     try {
-      const res = await axios.get(`${getTriageUrl()}/triage/daily-reports/${patientId}`);
+      const res = await axios.get(`${getTriageUrl()}/triage/daily-reports/${patientId}`, {
+        timeout: 4000,
+      });
       return res.data || [];
     } catch {
       return [];

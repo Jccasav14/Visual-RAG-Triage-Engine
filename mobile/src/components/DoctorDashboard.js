@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,6 +12,8 @@ import {
   ActivityIndicator,
   Modal,
   Platform,
+  KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
 import {
   Stethoscope,
@@ -73,6 +75,28 @@ const CLINICAL_CATEGORIES = [
 
 export const DoctorDashboard = ({ user, token, onLogout, onUpdateUser }) => {
   const { theme, isDarkMode, toggleTheme } = useTheme();
+  const scrollViewRef = useRef(null);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      (e) => {
+        setKeyboardHeight(e.endCoordinates ? e.endCoordinates.height : 280);
+      }
+    );
+    const hideSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      }
+    );
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
   const [activeTab, setActiveTab] = useState('PATIENTS'); // 'PATIENTS' | 'RESTRICTIONS' | 'VISION' | 'PROFILE'
   const [assignedPatients, setAssignedPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -267,6 +291,10 @@ export const DoctorDashboard = ({ user, token, onLogout, onUpdateUser }) => {
     setList(list.filter((_, idx) => idx !== indexToRemove));
   };
 
+  const toggleSection = (sectionKey) => {
+    setOpenSection(openSection === sectionKey ? '' : sectionKey);
+  };
+
   const handleSaveRestrictions = async () => {
     if (!selectedPatient) {
       Alert.alert('Selección Requerida', 'Debes seleccionar a un paciente.');
@@ -342,30 +370,53 @@ export const DoctorDashboard = ({ user, token, onLogout, onUpdateUser }) => {
     );
   });
 
+  const doctorDisplayName = (user.fullName || user.email || '')
+    .replace(/\s*\([^)]*\)/g, '')
+    .trim();
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg }]}>
       <StatusBar barStyle={theme.statusBarStyle} backgroundColor={theme.headerBg} translucent={false} />
 
       {/* TOP HEADER */}
       <View style={[styles.header, { backgroundColor: theme.headerBg, borderBottomColor: theme.border }]}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+        <View style={styles.headerLeft}>
           <View style={[styles.headerIconContainer, { backgroundColor: theme.primaryBg }]}>
-            <Stethoscope size={22} color={theme.primary} />
+            <Stethoscope size={20} color={theme.primary} />
           </View>
-          <View>
-            <Text style={[styles.headerSubtitle, { color: theme.primary }]}>CIRUJANO TRATANTE</Text>
-            <Text style={[styles.headerTitle, { color: theme.text }]}>{user.fullName || user.email}</Text>
+          <View style={styles.headerTextGroup}>
+            <Text style={[styles.headerSubtitle, { color: theme.primary }]} numberOfLines={1}>
+              CIRUJANO TRATANTE
+            </Text>
+            <Text style={[styles.headerTitle, { color: theme.text }]} numberOfLines={1} ellipsizeMode="tail">
+              {doctorDisplayName}
+            </Text>
           </View>
         </View>
 
         <View style={[styles.statusBadge, { backgroundColor: theme.primaryBg }]}>
-          <Text style={[styles.statusBadgeText, { color: theme.primary }]}>En Servicio</Text>
+          <Text style={[styles.statusBadgeText, { color: theme.primary }]} numberOfLines={1}>
+            En Servicio
+          </Text>
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* TAB 1: MIS PACIENTES */}
-        {activeTab === 'PATIENTS' && (
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+      >
+        <ScrollView
+          ref={scrollViewRef}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingBottom: keyboardHeight > 0 ? keyboardHeight + 80 : 80 }
+          ]}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          {/* TAB 1: MIS PACIENTES */}
+          {activeTab === 'PATIENTS' && (
           <View>
             <View style={styles.sectionHeaderRow}>
               <Text style={[styles.sectionHeading, { color: theme.text }]}>Mis Pacientes</Text>
@@ -494,7 +545,7 @@ export const DoctorDashboard = ({ user, token, onLogout, onUpdateUser }) => {
                 <View style={[styles.accordionModule, { backgroundColor: theme.card, borderColor: theme.border }]}>
                   <TouchableOpacity
                     style={styles.accordionHeader}
-                    onPress={() => setOpenSection(openSection === 'SURGERY' ? '' : 'SURGERY')}
+                    onPress={() => toggleSection('SURGERY')}
                   >
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
                       <View style={[styles.modIcon, { backgroundColor: theme.primaryBg }]}>
@@ -564,7 +615,7 @@ export const DoctorDashboard = ({ user, token, onLogout, onUpdateUser }) => {
                 <View style={[styles.accordionModule, { backgroundColor: theme.card, borderColor: theme.border }]}>
                   <TouchableOpacity
                     style={styles.accordionHeader}
-                    onPress={() => setOpenSection(openSection === 'PROHIBITIONS' ? '' : 'PROHIBITIONS')}
+                    onPress={() => toggleSection('PROHIBITIONS')}
                   >
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
                       <View style={[styles.modIcon, { backgroundColor: theme.primaryBg }]}>
@@ -631,7 +682,7 @@ export const DoctorDashboard = ({ user, token, onLogout, onUpdateUser }) => {
                 <View style={[styles.accordionModule, { backgroundColor: theme.card, borderColor: theme.border }]}>
                   <TouchableOpacity
                     style={styles.accordionHeader}
-                    onPress={() => setOpenSection(openSection === 'CARE' ? '' : 'CARE')}
+                    onPress={() => toggleSection('CARE')}
                   >
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
                       <View style={[styles.modIcon, { backgroundColor: theme.primaryBg }]}>
@@ -698,7 +749,7 @@ export const DoctorDashboard = ({ user, token, onLogout, onUpdateUser }) => {
                 <View style={[styles.accordionModule, { backgroundColor: theme.card, borderColor: theme.border }]}>
                   <TouchableOpacity
                     style={styles.accordionHeader}
-                    onPress={() => setOpenSection(openSection === 'EMERGENCY' ? '' : 'EMERGENCY')}
+                    onPress={() => toggleSection('EMERGENCY')}
                   >
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
                       <View style={[styles.modIcon, { backgroundColor: theme.primaryBg }]}>
@@ -1002,6 +1053,7 @@ export const DoctorDashboard = ({ user, token, onLogout, onUpdateUser }) => {
           </View>
         )}
       </ScrollView>
+    </KeyboardAvoidingView>
 
       {/* FIXED BOTTOM NAVIGATION BAR */}
       <View style={[styles.bottomBar, { backgroundColor: theme.bottomBar, borderTopColor: theme.border }]}>
@@ -1148,12 +1200,25 @@ const styles = StyleSheet.create({
     paddingTop: STATUS_BAR_HEIGHT,
   },
   header: {
-    paddingHorizontal: 20,
-    paddingVertical: 14,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
+  },
+  headerLeft: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginRight: 10,
+    minWidth: 0,
+  },
+  headerTextGroup: {
+    flex: 1,
+    minWidth: 0,
+    justifyContent: 'center',
   },
   headerIconContainer: {
     width: 40,
@@ -1161,11 +1226,33 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
+    flexShrink: 0,
   },
-  headerSubtitle: { fontSize: 11, fontWeight: '800', letterSpacing: 0.5 },
-  headerTitle: { fontSize: 16, fontWeight: '700' },
-  statusBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
-  statusBadgeText: { fontSize: 11, fontWeight: '800' },
+  headerSubtitle: {
+    fontSize: 10.5,
+    fontWeight: '800',
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+  },
+  headerTitle: {
+    fontSize: 14.5,
+    fontWeight: '700',
+    marginTop: 1,
+  },
+  statusBadge: {
+    flexShrink: 0,
+    minWidth: 82,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  statusBadgeText: {
+    fontSize: 10.5,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
 
   scrollContent: { padding: 18, paddingBottom: 90 },
   sectionHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },

@@ -14,6 +14,7 @@ import {
   Modal,
   Platform,
   KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Print from 'expo-print';
@@ -82,6 +83,26 @@ export const PatientTabs = ({ user, token, onLogout, onUpdateUser }) => {
   const [birthDate, setBirthDate] = useState(user.birthDate || '');
   const [savingProfile, setSavingProfile] = useState(false);
   const [profileMsg, setProfileMsg] = useState('');
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      (e) => {
+        setKeyboardHeight(e.endCoordinates ? e.endCoordinates.height : 280);
+      }
+    );
+    const hideSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      }
+    );
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
 
   const calculateRecoveryDay = () => {
     if (doctorRestrictions && doctorRestrictions.startDate) {
@@ -125,11 +146,14 @@ export const PatientTabs = ({ user, token, onLogout, onUpdateUser }) => {
     setLoadingReports(true);
     try {
       const reports = await api.getDailyReports(user.id);
-      if (Array.isArray(reports) && reports.length > 0) {
+      if (Array.isArray(reports)) {
         setDailyReports(reports);
+      } else {
+        setDailyReports([]);
       }
     } catch (err) {
       console.warn('Notice loading daily reports:', err.message);
+      setDailyReports([]);
     } finally {
       setLoadingReports(false);
     }
@@ -479,11 +503,14 @@ export const PatientTabs = ({ user, token, onLogout, onUpdateUser }) => {
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 20}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
       >
         <ScrollView
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingBottom: keyboardHeight > 0 ? keyboardHeight + 80 : 80 }
+          ]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >

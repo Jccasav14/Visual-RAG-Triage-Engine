@@ -10,21 +10,22 @@ services:
       POSTGRES_PASSWORD: postgrespassword
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7.2-alpine
     container_name: visual_rag_redis
     ports:
       - "6379:6379"
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
-    container_name: visual_rag_elasticsearch
-    ports:
-      - "9200:9200"
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:

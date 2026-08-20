@@ -21,7 +21,9 @@ export class UsersService {
   }
 
   async findByEmail(email: string, includePassword = false): Promise<User | null> {
-    const query = this.userRepository.createQueryBuilder('user').where('user.email = :email', { email });
+    const normalizedEmail = (email || '').trim().toLowerCase();
+    const query = this.userRepository.createQueryBuilder('user')
+      .where('LOWER(user.email) = :email', { email: normalizedEmail });
     if (includePassword) {
       query.addSelect('user.password');
     }
@@ -115,7 +117,7 @@ export class UsersService {
       .where('user.role = :role', { role: UserRole.PATIENT });
 
     if (query) {
-      qb.andWhere('(user.email LIKE :q OR user.fullName LIKE :q OR user.cedula LIKE :q OR user.id LIKE :q)', { q: `%${query}%` });
+      qb.andWhere('(LOWER(user.email) LIKE :q OR LOWER(user.fullName) LIKE :q OR user.cedula LIKE :q OR user.id LIKE :q)', { q: `%${query.toLowerCase()}%` });
     }
 
     const patients = await qb.getMany();
