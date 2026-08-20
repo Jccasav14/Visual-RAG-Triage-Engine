@@ -1,7 +1,7 @@
 # Jean Carlos Casa Velasquez
 
 **Software Engineer | Information Systems Engineering Student**  
-Quito, Ecuador | [GitHub](https://github.com/Jccasav14) | [LinkedIn](https://linkedin.com) | [Email](mailto:jeancasaxd60@gmail.com)
+Quito, Ecuador • Email: jeancasaxd60@gmail.com
 
 ---
 
@@ -47,7 +47,7 @@ My engineering focus centers on building resilient backend architectures, real-t
 ## Featured Engineering Projects
 
 ### Visual-RAG Postoperative Triage Engine
-- **Repository**: [Visual-RAG-Triage-Engine](https://github.com/Jccasav14/Visual-RAG-Triage-Engine)
+- **Repository**: Visual-RAG-Triage-Engine
 - **Tech Stack**: NestJS Microservices, Python FastAPI, TensorFlow 2.15, Google Gemini Flash, PostgreSQL 15, Redis, React Native Expo.
 - **Description**: Enterprise-grade multimodal telemedicine platform automating surgical wound evaluation through a 10-class CNN visual classifier (~42ms latency, 97.4% precision) synchronized with a clinical Visual-RAG pipeline for personalized postoperative recovery directives.
 
@@ -66,5 +66,5 @@ My engineering focus centers on building resilient backend architectures, real-t
 
 I am always interested in discussing software engineering challenges, distributed systems design, and AI research collaborations:
 
-- **Email**: `jeancasaxd60@gmail.com`
-- **GitHub**: [github.com/Jccasav14](https://github.com/Jccasav14)
+- **Email**: jeancasaxd60@gmail.com
+- **Location**: Quito, Ecuador
