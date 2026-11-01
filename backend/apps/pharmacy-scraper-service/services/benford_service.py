@@ -40,3 +40,25 @@ class BenfordAuditService:
         Calcula:
         1. Frecuencias observadas vs esperadas para dígitos 1..9.
         2. Estadístico Chi-Cuadrado (χ²) y p-valor.
+        3. Mean Absolute Deviation (MAD) con el estándar de auditoría de Nigrini.
+        4. Identificación de dígitos con distorsión/anomalía significativa.
+        """
+        digits = []
+        valid_items_count = 0
+
+        for item in items:
+            price = item.get("price")
+            if price is not None and isinstance(price, (int, float)) and price > 0:
+                digit = cls.extract_leading_digit(price)
+                if digit:
+                    digits.append(digit)
+                    valid_items_count += 1
+
+        n = len(digits)
+        if n < 10:
+            return {
+                "sample_size": n,
+                "status": "INSUFFICIENT_DATA",
+                "message": f"Se requieren al menos 10 registros de precios para auditar (actual: {n}).",
+                "is_benford_compliant": None,
+                "mad": None,
