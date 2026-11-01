@@ -62,3 +62,22 @@ class BenfordAuditService:
                 "message": f"Se requieren al menos 10 registros de precios para auditar (actual: {n}).",
                 "is_benford_compliant": None,
                 "mad": None,
+                "chi_square": None,
+                "p_value": None,
+                "breakdown": []
+            }
+
+        counts = {d: 0 for d in range(1, 10)}
+        for d in digits:
+            counts[d] += 1
+
+        breakdown = []
+        observed_counts = []
+        expected_counts = []
+        abs_deviations = []
+        anomalous_digits = []
+
+        for d in range(1, 10):
+            obs_count = counts[d]
+            obs_freq = obs_count / n
+            exp_freq = cls.BENFORD_PROBABILITIES[d]
