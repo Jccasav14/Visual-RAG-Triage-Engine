@@ -128,3 +128,20 @@ class BenfordAuditService:
 
         if p_val >= 0.05 and mad <= mad_threshold:
             compliance_level = "CONFORMIDAD_VERIFICADA"
+            compliance_label = "Conformidad Verificada (Precios Orgánicos sin Indicios de Alteración ni Fraude)"
+            is_compliant = True
+        elif p_val >= 0.01:
+            compliance_level = "CONFORMIDAD_ACEPTABLE"
+            compliance_label = "Conformidad Aceptable (Distribución Natural Verificada en Mercado Ecuatoriano)"
+            is_compliant = True
+        else:
+            compliance_level = "NO_CONFORME_ANOMALO"
+            compliance_label = "Alerta de Anomalía (Posible Fijación Artificial de Precios o Monopolio)"
+            is_compliant = False
+
+        trust_score = max(50, min(100, round((1.0 - (mad / 0.06)) * 100, 1))) if is_compliant else round(max(10, p_val * 100), 1)
+
+        return {
+            "sample_size": n,
+            "status": "AUDITED",
+            "is_benford_compliant": is_compliant,
