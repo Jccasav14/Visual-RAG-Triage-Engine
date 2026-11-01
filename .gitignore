@@ -49,5 +49,9 @@ scratch/
 # IDE / OS
 .DS_Store
 Thumbs.db
+
+# Figma design files
+figma/
+Thumbs.db
 .vscode/
 .idea/
