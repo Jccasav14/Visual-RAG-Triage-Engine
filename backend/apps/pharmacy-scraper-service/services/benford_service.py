@@ -106,3 +106,25 @@ class BenfordAuditService:
             breakdown.append({
                 "digit": d,
                 "observed_count": obs_count,
+                "expected_count": round(exp_count, 2),
+                "observed_percentage": round(obs_freq * 100, 2),
+                "expected_benford_percentage": round(exp_freq * 100, 2),
+                "absolute_deviation_pct": round(abs_dev * 100, 2),
+                "z_score": round(z_score, 2),
+                "is_anomalous": is_anomaly
+            })
+
+        # Test Chi-cuadrado (H0: los datos siguen la distribución de Benford)
+        # Un p-valor > 0.05 indica que NO se rechaza la hipótesis nula (los datos son consistentes con Benford).
+        chi2_stat, p_val = stats.chisquare(observed_counts, f_exp=expected_counts)
+
+        # Mean Absolute Deviation (MAD)
+        mad = float(np.mean(abs_deviations))
+
+        # Ajuste de umbrales según el tamaño muestral N (Nigrini 2012)
+        # Para muestras pequeñas (N < 100), la varianza natural eleva el MAD, por lo que el p-valor de Chi-cuadrado
+        # es el criterio estándar para determinar la conformidad.
+        mad_threshold = 0.035 if n < 100 else 0.015
+
+        if p_val >= 0.05 and mad <= mad_threshold:
+            compliance_level = "CONFORMIDAD_VERIFICADA"
