@@ -156,3 +156,10 @@ class BenfordAuditService:
             "anomalous_digits": anomalous_digits,
             "breakdown": breakdown,
             "verdict": (
+                "Dataset Clínico-Farmacéutico VÁLIDO Y AUTÉNTICO. "
+                "Los precios analizados provienen de comportamientos económicos naturales en farmacias ecuatorianas."
+                if is_compliant else
+                "Dataset Clínico-Farmacéutico CON ANOMALÍAS. "
+                "Se detectaron desviaciones estadísticas que sugieren precios inflados o agrupamientos no naturales."
+            )
+        }
