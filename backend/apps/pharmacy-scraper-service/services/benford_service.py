@@ -23,3 +23,20 @@ class BenfordAuditService:
         """
         if value is None or value <= 0:
             return None
+        
+        # Formato string limpio sin signo
+        s = f"{value:.6f}".replace(".", "").lstrip("0")
+        if not s:
+            return None
+        first_char = s[0]
+        if first_char.isdigit() and first_char != '0':
+            return int(first_char)
+        return None
+
+    @classmethod
+    def audit_prices(cls, items: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Ejecuta el análisis estadístico de Benford sobre la lista de productos/precios.
+        Calcula:
+        1. Frecuencias observadas vs esperadas para dígitos 1..9.
+        2. Estadístico Chi-Cuadrado (χ²) y p-valor.
