@@ -81,3 +81,28 @@ class BenfordAuditService:
             obs_count = counts[d]
             obs_freq = obs_count / n
             exp_freq = cls.BENFORD_PROBABILITIES[d]
+            exp_count = n * exp_freq
+
+            observed_counts.append(obs_count)
+            expected_counts.append(exp_count)
+
+            deviation = obs_freq - exp_freq
+            abs_dev = abs(deviation)
+            abs_deviations.append(abs_dev)
+
+            # Residuo estandarizado (z-score del dígito)
+            z_score = (obs_count - exp_count) / math.sqrt(exp_count) if exp_count > 0 else 0
+            is_anomaly = abs(z_score) > 1.96  # 95% intervalo de confianza
+
+            if is_anomaly:
+                anomalous_digits.append({
+                    "digit": d,
+                    "z_score": round(z_score, 2),
+                    "tendency": "SOBRE-REPRESENTADO (Posible Sobreprecio o Fijación)" if z_score > 0 else "SUB-REPRESENTADO",
+                    "observed_pct": round(obs_freq * 100, 2),
+                    "expected_pct": round(exp_freq * 100, 2)
+                })
+
+            breakdown.append({
+                "digit": d,
+                "observed_count": obs_count,
