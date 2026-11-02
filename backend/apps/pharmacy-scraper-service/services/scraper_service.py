@@ -472,3 +472,29 @@ class EcuadorPharmacyScraperService:
     def get_wound_care_kit(self, wound_classification: str) -> Dict[str, Any]:
         """
         Retorna la canasta recomendada de insumos médicos de farmacias ecuatorianas
+        según el estado de la herida clasificado por el modelo de Visión IA.
+        """
+        w_lower = (wound_classification or "").lower()
+
+        # Recomendaciones según clínica quirúrgica
+        if "infección" in w_lower or "eritema" in w_lower:
+            recommended_ids = ["PROD-001", "PROD-005", "PROD-019", "PROD-014"]
+            clinical_advice = "Prioridad en desinfección perilesional con Clorhexidina y antibiótico oral según receta."
+            severity_badge = "ATENCIÓN / SOSPECHA DE INFECCIÓN"
+        elif "dehiscencia" in w_lower:
+            recommended_ids = ["PROD-009", "PROD-006", "PROD-001", "PROD-008"]
+            clinical_advice = "Afrontamiento con cintas Steri-Strip y apósito hidrocoloide. Notificar al cirujano."
+            severity_badge = "CUIDADO / DEHISCENCIA DE BORDES"
+        elif "seroma" in w_lower or "hematoma" in w_lower:
+            recommended_ids = ["PROD-022", "PROD-016", "PROD-005"]
+            clinical_advice = "Soporte de compresión con faja elástica postquirúrgica para favorecer reabsorción."
+            severity_badge = "MODERADO / COLECCIÓN LÍQUIDA"
+        else: # Cicatrización Normal o Granulación
+            recommended_ids = ["PROD-002", "PROD-005", "PROD-007", "PROD-010"]
+            clinical_advice = "Evolución fisiológica excelente. Lavado con solución salina estéril y gel cicatrizante."
+            severity_badge = "EVOLUCIÓN NORMAL EUTRÓFICA"
+
+        kit_items = [p for p in self.products if p["id"] in recommended_ids]
+        total_estimated = round(sum(p["price"] for p in kit_items), 2)
+
+        return {
