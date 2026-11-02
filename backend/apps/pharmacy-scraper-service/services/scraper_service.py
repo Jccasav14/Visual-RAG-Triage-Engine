@@ -62,3 +62,45 @@ DEFAULT_ECUADOR_SUPPLIES = [
         "image_url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=80",
         "source_url": "https://cruzazul.ec/povidona-10",
         "delivery_time": "25 min"
+    },
+    {
+        "id": "PROD-004",
+        "name": "Jabón Líquido Quirúrgico Clorhexidina 4% 500ml",
+        "generic_name": "Clorhexidina jabonosa 4%",
+        "category": "Antisépticos y Curación",
+        "pharmacy": "Fybeca",
+        "city": "Quito",
+        "price": 12.90,
+        "currency": "USD",
+        "unit": "Dispensador 500ml",
+        "stock": "Disponible",
+        "indication": "Higiene corporal pre y postquirúrgica según protocolo de asepsia.",
+        "requires_prescription": False,
+        "image_url": "https://images.unsplash.com/photo-1608248597359-009d73679808?w=400&q=80",
+        "source_url": "https://www.fybeca.com/jabon-clorhexidina-4",
+        "delivery_time": "45 min"
+    },
+
+    # 2. Gasas & Apósitos Quirúrgicos
+    {
+        "id": "PROD-005",
+        "name": "Gasas Quirúrgicas Estériles 10x10cm (Caja 10 sobres)",
+        "generic_name": "Gasa hidrófila estéril",
+        "category": "Gasas y Apósitos",
+        "pharmacy": "SanaSana",
+        "city": "Quito",
+        "price": 2.10,
+        "currency": "USD",
+        "unit": "Caja 10 sobres",
+        "stock": "Disponible",
+        "indication": "Cubrimiento primario de suturas y absorción de exudados serosos.",
+        "requires_prescription": False,
+        "image_url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=80",
+        "source_url": "https://sanasana.ec/gasas-10x10",
+        "delivery_time": "30 min"
+    },
+    {
+        "id": "PROD-006",
+        "name": "Apósito Hidrocoloide Duoderm CGF 10x10cm",
+        "generic_name": "Hidrocoloide con formulación de gel de control",
+        "category": "Gasas y Apósitos",
