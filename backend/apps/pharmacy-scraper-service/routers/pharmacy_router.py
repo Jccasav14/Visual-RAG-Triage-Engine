@@ -17,3 +17,12 @@ def get_products(
     return {
         "total": len(items),
         "currency": "USD (Ecuador)",
+        "last_sync": scraper_service.last_scraped_at,
+        "products": items
+    }
+
+@router.get("/benford-audit", summary="Auditoría Forense con Ley de Benford de los precios de farmacias")
+def audit_benford_law():
+    """
+    Evalúa la distribución del primer dígito significativo de todos los precios de farmacias
+    ecuatorianas para verificar autenticidad matemática y ausencia de manipulación/sobreprecios.
