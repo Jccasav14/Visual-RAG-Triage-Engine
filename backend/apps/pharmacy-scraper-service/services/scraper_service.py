@@ -409,3 +409,40 @@ DEFAULT_ECUADOR_SUPPLIES = [
         "stock": "Disponible",
         "indication": "Evacuación de líquidos peritoneales y hematomas postquirúrgicos.",
         "requires_prescription": True,
+        "image_url": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&q=80",
+        "source_url": "https://www.fybeca.com/drenaje-jackson-pratt",
+        "delivery_time": "45 min"
+    },
+    {
+        "id": "PROD-024",
+        "name": "Guantes Quirúrgicos Estériles de Látex 7.5 (Par)",
+        "generic_name": "Guantes de látex estériles para curación",
+        "category": "Antisépticos y Curación",
+        "pharmacy": "Cruz Azul",
+        "city": "Guayaquil",
+        "price": 0.95,
+        "currency": "USD",
+        "unit": "Sobre 1 par",
+        "stock": "Disponible",
+        "indication": "Técnica aséptica rigurosa durante el cambio de vendajes en el hogar.",
+        "requires_prescription": False,
+        "image_url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=80",
+        "source_url": "https://cruzazul.ec/guantes-esteriles-par",
+        "delivery_time": "20 min"
+    }
+]
+
+class EcuadorPharmacyScraperService:
+    """
+    Servicio de web scraping e ingesta en tiempo real de cadenas farmacéuticas
+    ecuatorianas (Fybeca, Medicity, Cruz Azul, SanaSana) para insumos postquirúrgicos.
+    """
+
+    def __init__(self):
+        self.products = list(DEFAULT_ECUADOR_SUPPLIES)
+        self.last_scraped_at = datetime.utcnow().isoformat() + "Z"
+
+    def get_all_products(
+        self,
+        category: Optional[str] = None,
+        pharmacy: Optional[str] = None,
