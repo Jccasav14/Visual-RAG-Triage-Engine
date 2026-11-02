@@ -26,3 +26,12 @@ def audit_benford_law():
     """
     Evalúa la distribución del primer dígito significativo de todos los precios de farmacias
     ecuatorianas para verificar autenticidad matemática y ausencia de manipulación/sobreprecios.
+    """
+    items = scraper_service.get_all_products()
+    audit_result = BenfordAuditService.audit_prices(items)
+    return audit_result
+
+@router.get("/wound-care-kit", summary="Canasta de insumos recomendada según clasificación de la herida")
+def get_wound_kit(
+    wound_classification: str = Query("Cicatrización Normal (Eutrófica)", description="Diagnóstico del modelo de Visión IA")
+):
