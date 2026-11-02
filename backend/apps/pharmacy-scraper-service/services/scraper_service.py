@@ -377,3 +377,35 @@ DEFAULT_ECUADOR_SUPPLIES = [
         "source_url": "https://sanasana.ec/cefalexina-500mg",
         "delivery_time": "30 min"
     },
+
+    # 6. Soportes, Drenajes & Fajas Quirúrgicas
+    {
+        "id": "PROD-022",
+        "name": "Faja Postquirúrgica Abdominal Elástica 3 Paneles (Talla M/L)",
+        "generic_name": "Faja elástica de compresión gradual médica",
+        "category": "Soportes y Protección",
+        "pharmacy": "Farmacias Medicity",
+        "city": "Quito",
+        "price": 26.50,
+        "currency": "USD",
+        "unit": "Unidad",
+        "stock": "Disponible",
+        "indication": "Contención de pared abdominal tras laparotomía o laparoscopía, reduce seromas.",
+        "requires_prescription": False,
+        "image_url": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&q=80",
+        "source_url": "https://www.farmaciasmedicity.com/faja-abdominal-postquirurgica",
+        "delivery_time": "60 min"
+    },
+    {
+        "id": "PROD-023",
+        "name": "Bolsa de Recolección de Drenaje Jackson-Pratt 100ml con Tubo",
+        "generic_name": "Sistema de succión cerrado con bulbo de silicona",
+        "category": "Soportes y Protección",
+        "pharmacy": "Fybeca",
+        "city": "Quito",
+        "price": 18.25,
+        "currency": "USD",
+        "unit": "Kit estéril",
+        "stock": "Disponible",
+        "indication": "Evacuación de líquidos peritoneales y hematomas postquirúrgicos.",
+        "requires_prescription": True,
