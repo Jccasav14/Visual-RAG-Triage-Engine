@@ -219,3 +219,45 @@ DEFAULT_ECUADOR_SUPPLIES = [
         "image_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80",
         "source_url": "https://sanasana.ec/bepanthol-unguento-30g",
         "delivery_time": "25 min"
+    },
+    {
+        "id": "PROD-013",
+        "name": "Madecassol Pomada Epitelizante 10g",
+        "generic_name": "Centella asiática extracto valorado 1%",
+        "category": "Cicatrizantes",
+        "pharmacy": "Farmacias Medicity",
+        "city": "Quito",
+        "price": 8.90,
+        "currency": "USD",
+        "unit": "Tubo 10g",
+        "stock": "Disponible",
+        "indication": "Estimulación de la síntesis de colágeno y epitelización celular.",
+        "requires_prescription": False,
+        "image_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80",
+        "source_url": "https://www.farmaciasmedicity.com/madecassol-10g",
+        "delivery_time": "35 min"
+    },
+    {
+        "id": "PROD-014",
+        "name": "Neomicina + Bacitracina Ungüento Tópico 15g",
+        "generic_name": "Neomicina 5mg + Bacitracina 500UI",
+        "category": "Cicatrizantes",
+        "pharmacy": "Cruz Azul",
+        "city": "Guayaquil",
+        "price": 3.40,
+        "currency": "USD",
+        "unit": "Tubo 15g",
+        "stock": "Disponible",
+        "indication": "Profilaxis antibacteriana tópica en sospecha de contaminación superficial.",
+        "requires_prescription": True,
+        "image_url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=80",
+        "source_url": "https://cruzazul.ec/neomicina-bacitracina",
+        "delivery_time": "20 min"
+    },
+
+    # 4. Analgésicos & Antiinflamatorios Postquirúrgicos
+    {
+        "id": "PROD-015",
+        "name": "Paracetamol Genfar 1000mg (Caja 20 tabletas)",
+        "generic_name": "Paracetamol 1g",
+        "category": "Analgésicos y Control de Dolor",
