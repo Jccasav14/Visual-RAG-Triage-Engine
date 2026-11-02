@@ -23,3 +23,4 @@ Microservicio de Web Scraping especializado en cadenas farmacéuticas de Ecuador
 
 3. **Canastas Postoperatorias Inteligentes**:
    - Sugiere insumos médicos específicos cruzando el diagnóstico del modelo de Visión IA (*Evolución Eutrófica*, *Eritema*, *Dehiscencia*, *Infección*).
+<!-- step: 18 -->
