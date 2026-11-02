@@ -35,3 +35,11 @@ def audit_benford_law():
 def get_wound_kit(
     wound_classification: str = Query("Cicatrización Normal (Eutrófica)", description="Diagnóstico del modelo de Visión IA")
 ):
+    kit = scraper_service.get_wound_care_kit(wound_classification)
+    return kit
+
+@router.post("/trigger-scrape", summary="Disparar proceso de scraping en tiempo real de cadenas de farmacias")
+def trigger_scrape():
+    result = scraper_service.trigger_realtime_scrape()
+    return result
+
