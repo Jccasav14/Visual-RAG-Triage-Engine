@@ -8,3 +8,12 @@ router = APIRouter(prefix="/api/pharmacies", tags=["Farmacias Ecuador & Ley de B
 scraper_service = EcuadorPharmacyScraperService()
 
 @router.get("/products", summary="Listar insumos médicos y fármacos postquirúrgicos scrapeados")
+def get_products(
+    category: Optional[str] = Query(None, description="Filtrar por categoría (ej. Antisépticos, Gasas, Cicatrizantes, Analgésicos)"),
+    pharmacy: Optional[str] = Query(None, description="Filtrar por farmacia (ej. Fybeca, Medicity, Cruz Azul, SanaSana)"),
+    search: Optional[str] = Query(None, description="Término de búsqueda clínica")
+):
+    items = scraper_service.get_all_products(category=category, pharmacy=pharmacy, search=search)
+    return {
+        "total": len(items),
+        "currency": "USD (Ecuador)",
