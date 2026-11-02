@@ -446,3 +446,29 @@ class EcuadorPharmacyScraperService:
         self,
         category: Optional[str] = None,
         pharmacy: Optional[str] = None,
+        search: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
+        results = self.products
+
+        if category:
+            cat_lower = category.lower()
+            results = [p for p in results if cat_lower in p["category"].lower()]
+
+        if pharmacy:
+            pharm_lower = pharmacy.lower()
+            results = [p for p in results if pharm_lower in p["pharmacy"].lower()]
+
+        if search:
+            query = search.lower()
+            results = [
+                p for p in results
+                if query in p["name"].lower()
+                or query in p["generic_name"].lower()
+                or query in p["indication"].lower()
+            ]
+
+        return results
+
+    def get_wound_care_kit(self, wound_classification: str) -> Dict[str, Any]:
+        """
+        Retorna la canasta recomendada de insumos médicos de farmacias ecuatorianas
