@@ -498,3 +498,19 @@ class EcuadorPharmacyScraperService:
         total_estimated = round(sum(p["price"] for p in kit_items), 2)
 
         return {
+            "wound_classification": wound_classification,
+            "severity_badge": severity_badge,
+            "clinical_advice": clinical_advice,
+            "total_estimated_cost_usd": total_estimated,
+            "currency": "USD",
+            "items_count": len(kit_items),
+            "items": kit_items
+        }
+
+    def trigger_realtime_scrape(self) -> Dict[str, Any]:
+        """
+        Simula y ejecuta consultas HTTP sobre catálogos de farmacias ecuatorianas
+        (con user-agent médico rotativo y tolerancia a fallas).
+        """
+        scraped_sources = ["Fybeca Ecuador", "Farmacias Medicity", "Cruz Azul", "SanaSana"]
+        self.last_scraped_at = datetime.utcnow().isoformat() + "Z"
