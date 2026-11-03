@@ -4,8 +4,9 @@
   "description": "Visual RAG Monorepo - Medical Postoperative Care with Vision AI",
   "scripts": {
     "start": "npm run start:all",
-    "start:all": "concurrently -k -p \"[{name}]\" -n \"VISION,BACKEND,MOBILE,WEB\" -c \"magenta,cyan,green,yellow\" \"npm run start:vision\" \"npm run start:backend\" \"npm run start:mobile\" \"npm run start:web\"",
+    "start:all": "concurrently -k -p \"[{name}]\" -n \"VISION,PHARMACY,BACKEND,MOBILE,WEB\" -c \"magenta,blue,cyan,green,yellow\" \"npm run start:vision\" \"npm run start:pharmacy\" \"npm run start:backend\" \"npm run start:mobile\" \"npm run start:web\"",
     "start:vision": "cd backend/apps/vision-ai-worker && python main.py",
+    "start:pharmacy": "cd backend/apps/pharmacy-scraper-service && python main.py",
     "start:backend": "cd backend && npm run start:all",
     "start:mobile": "cd mobile && npm start",
     "start:web": "cd frontend && npm run dev"
