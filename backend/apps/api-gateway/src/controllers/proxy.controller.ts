@@ -13,3 +13,10 @@ export class ProxyController {
   async proxyIdentity(@Req() req: Request, @Res() res: Response) {
     return this.proxyService.forward(req, res, 'http://localhost:3001');
   }
+
+  @All('triage/*')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async proxyTriage(@Req() req: Request, @Res() res: Response) {
+    return this.proxyService.forward(req, res, 'http://localhost:3002');
+  }
