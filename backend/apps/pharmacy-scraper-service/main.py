@@ -43,3 +43,8 @@ def health_check():
             "/api/pharmacies/trigger-scrape"
         ]
     }
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8005))
+    print(f"[PHARMACY-SERVICE] Iniciando Pharmacy Scraper Service en http://0.0.0.0:{port}")
+    uvicorn.run(app, host="0.0.0.0", port=port)
