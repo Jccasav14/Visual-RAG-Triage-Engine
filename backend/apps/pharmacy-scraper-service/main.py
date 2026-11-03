@@ -24,3 +24,14 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+app.include_router(pharmacy_router)
+
+@app.get("/", summary="Health Check y Estado del Microservicio")
+def health_check():
+    return {
+        "service": "pharmacy-scraper-service",
+        "status": "ONLINE",
+        "description": "Ecuador Postoperative Supplies Scraper & Benford's Law Auditor",
+        "port": 8005,
