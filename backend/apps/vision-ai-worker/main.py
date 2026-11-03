@@ -12,3 +12,7 @@ app = FastAPI(
     title="Visual-RAG TensorFlow Vision AI Worker",
     description="Microservicio Python de Visión por Computadora (Arquitectura en Capas - 10 Categorías)",
     version="1.2.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
