@@ -14,3 +14,13 @@ from routers.pharmacy_router import router as pharmacy_router
 app = FastAPI(
     title="Visual-RAG Ecuador Pharmacy Scraper & Benford Audit Engine",
     description="Microservicio de Web Scraping de Farmacias Ecuatorianas (Fybeca, Medicity, Cruz Azul, SanaSana) "
+                "con Motor de Auditoría Estadística Forense mediante la Ley de Benford (Detección de Sobreprecios y Datos Orgánicos).",
+    version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
