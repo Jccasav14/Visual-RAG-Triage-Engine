@@ -23,8 +23,17 @@ Microservicio de Web Scraping especializado en cadenas farmacéuticas de Ecuador
 
 3. **Canastas Postoperatorias Inteligentes**:
    - Sugiere insumos médicos específicos cruzando el diagnóstico del modelo de Visión IA (*Evolución Eutrófica*, *Eritema*, *Dehiscencia*, *Infección*).
-<!-- step: 18 -->
 
-<!-- step: 31 -->
+---
 
-<!-- step: 37 -->
+## 🚀 Endpoints REST (Puerto 8005)
+
+| Método | Endpoint | Descripción |
+| :--- | :--- | :--- |
+| `GET` | `/` | Health check y estado del microservicio. |
+| `GET` | `/api/pharmacies/products` | Catálogo filtrable por categoría, farmacia o término de búsqueda. |
+| `GET` | `/api/pharmacies/benford-audit` | Reporte completo de auditoría forense con Ley de Benford. |
+| `GET` | `/api/pharmacies/wound-care-kit` | Canasta de insumos recomendada según severidad de la herida. |
+| `POST` | `/api/pharmacies/trigger-scrape` | Sincronización y actualización en tiempo real del catálogo. |
+
+---
