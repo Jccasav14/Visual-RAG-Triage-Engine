@@ -35,3 +35,11 @@ def health_check():
         "status": "ONLINE",
         "description": "Ecuador Postoperative Supplies Scraper & Benford's Law Auditor",
         "port": 8005,
+        "docs_url": "/docs",
+        "endpoints": [
+            "/api/pharmacies/products",
+            "/api/pharmacies/benford-audit",
+            "/api/pharmacies/wound-care-kit",
+            "/api/pharmacies/trigger-scrape"
+        ]
+    }
