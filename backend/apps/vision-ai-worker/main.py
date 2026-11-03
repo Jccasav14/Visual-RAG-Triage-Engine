@@ -7,3 +7,8 @@ if hasattr(sys.stdout, 'reconfigure'):
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers.vision_router import router as vision_router
+
+app = FastAPI(
+    title="Visual-RAG TensorFlow Vision AI Worker",
+    description="Microservicio Python de Visión por Computadora (Arquitectura en Capas - 10 Categorías)",
+    version="1.2.0"
