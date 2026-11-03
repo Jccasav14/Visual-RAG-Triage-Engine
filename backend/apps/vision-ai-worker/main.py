@@ -23,3 +23,5 @@ app.add_middleware(
 )
 
 app.include_router(vision_router)
+
+if __name__ == "__main__":
