@@ -39,6 +39,16 @@ services:
     environment:
       - PORT=8000
 
+  pharmacy-scraper-service:
+    build:
+      context: ./backend/apps/pharmacy-scraper-service
+      dockerfile: Dockerfile
+    container_name: visual_rag_pharmacy_scraper
+    ports:
+      - "8005:8005"
+    environment:
+      - PORT=8005
+
   identity-service:
     build:
       context: ./backend
@@ -87,26 +97,3 @@ services:
     ports:
       - "3003:3003"
     environment:
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - GROQ_API_KEY=${GROQ_API_KEY}
-
-  api-gateway:
-    build:
-      context: ./backend
-      dockerfile: apps/api-gateway/Dockerfile
-    container_name: visual_rag_gateway
-    ports:
-      - "3050:3050"
-    environment:
-      - PORT=3050
-
-  web-frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: visual_rag_frontend
-    ports:
-      - "5173:5173"
-
-volumes:
-  postgres_data:
