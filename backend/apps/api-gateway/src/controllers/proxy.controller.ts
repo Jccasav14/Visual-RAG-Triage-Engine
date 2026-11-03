@@ -31,3 +31,5 @@ export class ProxyController {
   @All('pharmacies/*')
   async proxyPharmacies(@Req() req: Request, @Res() res: Response) {
     return this.proxyService.forward(req, res, 'http://localhost:8005');
+  }
+}
