@@ -37,3 +37,12 @@ Microservicio de Web Scraping especializado en cadenas farmacéuticas de Ecuador
 | `POST` | `/api/pharmacies/trigger-scrape` | Sincronización y actualización en tiempo real del catálogo. |
 
 ---
+
+## 💻 Ejecución
+
+```bash
+cd backend/apps/pharmacy-scraper-service
+python main.py
+```
+Documentación Swagger interactiva: `http://localhost:8005/docs`
+
