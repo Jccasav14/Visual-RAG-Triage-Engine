@@ -156,3 +156,70 @@ export const ReportsTab = ({
       let htmlContent = buildHtml(true);
       let pdfResult;
       try {
+        pdfResult = await Print.printToFileAsync({ html: htmlContent });
+      } catch {
+        htmlContent = buildHtml(false);
+        pdfResult = await Print.printToFileAsync({ html: htmlContent });
+      }
+
+      const pdfUri = pdfResult?.uri;
+      let sharedSuccessfully = false;
+      try {
+        const canShare = await Sharing.isAvailableAsync();
+        if (canShare && pdfUri) {
+          await Sharing.shareAsync(pdfUri, {
+            UTI: '.pdf',
+            mimeType: 'application/pdf',
+            dialogTitle: `Guardar o Compartir Reporte ${report.id || 'Postoperatorio'}`,
+          });
+          sharedSuccessfully = true;
+        }
+      } catch {
+        // Fallback al diálogo nativo de impresión
+      }
+
+      if (!sharedSuccessfully) {
+        await Print.printAsync({ html: htmlContent });
+      }
+    } catch {
+      Alert.alert('Error', 'No se pudo generar el reporte PDF. Por favor intenta nuevamente.');
+    } finally {
+      setGeneratingPdf(false);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.topRow}>
+        <Text style={[styles.sectionHeading, { color: theme.text }]}>Reportes Clínicos Guardados</Text>
+        <TouchableOpacity onPress={onRefresh} style={{ padding: 6 }}>
+          <RefreshCw size={20} color={theme.primary} />
+        </TouchableOpacity>
+      </View>
+
+      {loadingReports ? (
+        <View style={{ padding: 40, alignItems: 'center' }}>
+          <ActivityIndicator size="large" color={theme.primary} />
+        </View>
+      ) : dailyReports.length === 0 ? (
+        <View style={[styles.emptyCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
+          <View style={[styles.emptyIconCircle, { backgroundColor: theme.primaryBg }]}>
+            <FileSpreadsheet size={36} color={theme.primary} />
+          </View>
+          <Text style={[styles.emptyTitle, { color: theme.text }]}>Sin Reportes Registrados</Text>
+          <Text style={[styles.emptySub, { color: theme.textMuted }]}>
+            Toma fotos de tu incisión para emitir tu primer reporte clínico en PDF.
+          </Text>
+          <TouchableOpacity
+            style={[styles.emptyActionBtn, { backgroundColor: theme.primary }]}
+            onPress={onGoToEvaluation}
+          >
+            <Camera size={18} color="#FFFFFF" />
+            <Text style={styles.emptyActionBtnText}>Realizar Evaluación</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={{ gap: 12 }}>
+          {dailyReports.map((report) => {
+            const badge = getClinicalBadge(report.severity, report.classification);
+            const cleanClass = formatWoundClass(report.classification);
