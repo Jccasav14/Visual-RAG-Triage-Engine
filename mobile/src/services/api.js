@@ -171,3 +171,45 @@ export const api = {
       formData,
       {
         headers: { 'Content-Type': 'multipart/form-data' },
+      }
+    );
+    return res.data;
+  },
+
+  getVisionCategories: async () => {
+    const res = await axios.get(`${getVisionUrl()}/categories`);
+    return res.data;
+  },
+
+  getVisionMetrics: async () => {
+    const res = await axios.get(`${getVisionUrl()}/model-metrics`);
+    return res.data;
+  },
+
+  // 5. Python Pharmacy Scraper & Benford Audit Microservice (Port 8005)
+  getPharmacyProducts: async (params = {}) => {
+    const query = new URLSearchParams();
+    if (params.category) query.append('category', params.category);
+    if (params.pharmacy) query.append('pharmacy', params.pharmacy);
+    if (params.search) query.append('search', params.search);
+    const queryString = query.toString() ? `?${query.toString()}` : '';
+    const res = await axios.get(`${getPharmacyUrl()}/api/pharmacies/products${queryString}`);
+    return res.data;
+  },
+
+  getBenfordAudit: async () => {
+    const res = await axios.get(`${getPharmacyUrl()}/api/pharmacies/benford-audit`);
+    return res.data;
+  },
+
+  getWoundCareKit: async (woundClassification) => {
+    const q = woundClassification ? `?wound_classification=${encodeURIComponent(woundClassification)}` : '';
+    const res = await axios.get(`${getPharmacyUrl()}/api/pharmacies/wound-care-kit${q}`);
+    return res.data;
+  },
+
+  triggerPharmacyScrape: async () => {
+    const res = await axios.post(`${getPharmacyUrl()}/api/pharmacies/trigger-scrape`);
+    return res.data;
+  },
+};
