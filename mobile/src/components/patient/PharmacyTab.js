@@ -69,3 +69,38 @@ export const PharmacyTab = ({ recoveryDay, latestReport }) => {
       </View>
 
       {/* 4. INSUMO RECOMENDADO #1 */}
+      <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
+        <View style={styles.itemRow}>
+          <View style={{ flex: 1, paddingRight: 10 }}>
+            <Text style={[styles.itemName, { color: theme.text }]}>
+              Clorhexidina Solución 2% 120ml
+            </Text>
+            <Text style={[styles.itemSub, { color: theme.primary }]}>
+              Cruz Azul • Entrega Inmediata
+            </Text>
+          </View>
+          <View style={{ alignItems: 'flex-end' }}>
+            <Text style={styles.itemPrice}>$3.20</Text>
+            <TouchableOpacity
+              style={[styles.buyBtn, { backgroundColor: theme.primaryBg }]}
+              onPress={() => Linking.openURL('https://cruzazul.ec').catch(() => Alert.alert('Farmacia', 'Disponible en Cruz Azul.'))}
+            >
+              <Text style={[styles.buyBtnText, { color: theme.primary }]}>
+                Pedir Online ↗
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+
+      {/* 5. INSUMO RECOMENDADO #2 */}
+      <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
+        <View style={styles.itemRow}>
+          <View style={{ flex: 1, paddingRight: 10 }}>
+            <Text style={[styles.itemName, { color: theme.text }]}>
+              Apósito Tegaderm Impermeable 3M
+            </Text>
+            <Text style={[styles.itemSub, { color: theme.primary }]}>
+              Fybeca • Entrega en 30 min
+            </Text>
+          </View>
