@@ -23,6 +23,7 @@ const getIdentityUrl = () => `http://${BASE_HOST}:3001`;
 const getTriageUrl = () => `http://${BASE_HOST}:3002`;
 const getLlmUrl = () => `http://${BASE_HOST}:3003`;
 const getVisionUrl = () => `http://${BASE_HOST}:8000`;
+const getPharmacyUrl = () => `http://${BASE_HOST}:8005`;
 
 export const api = {
   // 1. Identity & Auth Microservice (Port 3001)
@@ -127,61 +128,3 @@ export const api = {
     });
     return res.data;
   },
-
-  getDailyReports: async (patientId) => {
-    try {
-      const res = await axios.get(`${getTriageUrl()}/triage/daily-reports/${patientId}`, {
-        timeout: 4000,
-      });
-      return res.data || [];
-    } catch {
-      return [];
-    }
-  },
-
-  // 3. LLM Orchestrator Microservice (Port 3003)
-  generatePersonalizedPlan: async (token, payload) => {
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-    const res = await axios.post(`${getLlmUrl()}/llm/generate-personalized-plan`, payload, {
-      headers,
-    });
-    return res.data;
-  },
-
-  // 4. Python Vision AI Worker Microservice (Port 8000)
-  classifyWoundFile: async (fileUri, recoveryDay = 1) => {
-    const formData = new FormData();
-    const filename = `herida_${Date.now()}.jpg`;
-
-    if (Platform.OS === 'web') {
-      const response = await fetch(fileUri);
-      const blob = await response.blob();
-      formData.append('file', blob, filename);
-    } else {
-      formData.append('file', {
-        uri: Platform.OS === 'ios' ? fileUri.replace('file://', '') : fileUri,
-        name: filename,
-        type: 'image/jpeg',
-      });
-    }
-
-    const res = await axios.post(
-      `${getVisionUrl()}/classify-wound?recovery_day=${recoveryDay}`,
-      formData,
-      {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      }
-    );
-    return res.data;
-  },
-
-  getVisionCategories: async () => {
-    const res = await axios.get(`${getVisionUrl()}/categories`);
-    return res.data;
-  },
-
-  getVisionMetrics: async () => {
-    const res = await axios.get(`${getVisionUrl()}/model-metrics`);
-    return res.data;
-  },
-};
