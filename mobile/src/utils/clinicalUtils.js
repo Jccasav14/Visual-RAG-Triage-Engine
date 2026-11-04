@@ -6,3 +6,11 @@ export const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? (StatusBar.currentH
 export const formatWoundClass = (className) => {
   if (!className) return 'Cicatrización Normal';
   const raw = String(className).trim().toUpperCase();
+
+  const directMap = {
+    'EXCESSIVE_HYPERLOGIC_SCAR': 'Cicatrización Hipertrófica',
+    'NORMAL_SUTURE_HEALING': 'Cicatrización Normal',
+    'SEROMA_FLUID_ACCUMULATION': 'Seroma / Líquido Acumulado',
+    'ERYTHEMA_MILD_INFLAMMATION': 'Eritema / Inflamación Leve',
+    'HEMATOMA_BRUISING': 'Hematoma Subcutáneo',
+    'SURGICAL_SITE_INFECTION_PURULENT': 'Infección de Sutura',
