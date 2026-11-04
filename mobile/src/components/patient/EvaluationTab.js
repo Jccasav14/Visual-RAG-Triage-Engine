@@ -187,3 +187,30 @@ export const EvaluationTab = ({
                   <Text style={styles.evaluateButtonText}>Analizando Incisión con IA...</Text>
                 </View>
               ) : (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <Sparkles size={18} color="#FFFFFF" />
+                  <Text style={styles.evaluateButtonText}>Analizar Herida con IA</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: { flex: 1, gap: 14 },
+  surgeryCard: { borderRadius: 16, padding: 16, borderWidth: 1 },
+  surgeryHeader: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  surgeryIconBox: { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  surgeryTitle: { fontSize: 15, fontWeight: '800' },
+  surgerySub: { fontSize: 12, marginTop: 1 },
+  progressBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
+  progressBadgeText: { fontSize: 12, fontWeight: '800' },
+  progressTrack: { height: 6, borderRadius: 3, marginTop: 12, overflow: 'hidden' },
+  progressFill: { height: '100%', borderRadius: 3 },
+  photoCardBlockExpanded: {
+    borderRadius: 20,
+    padding: 16,
