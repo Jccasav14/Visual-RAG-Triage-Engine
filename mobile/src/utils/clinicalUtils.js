@@ -24,3 +24,11 @@ export const formatWoundClass = (className) => {
 
   const lower = raw.toLowerCase();
   if (lower.includes('hyper') || lower.includes('queloide') || lower.includes('keloid') || lower.includes('scar')) return 'Cicatrización Hipertrófica';
+  if (lower.includes('dehiscenc') || lower.includes('separaci')) return 'Dehiscencia de Sutura';
+  if (lower.includes('infect') || lower.includes('purulent') || lower.includes('infecci')) return 'Infección de Sutura';
+  if (lower.includes('seroma') || lower.includes('fluid')) return 'Seroma / Líquido Acumulado';
+  if (lower.includes('hematoma') || lower.includes('bruis')) return 'Hematoma Subcutáneo';
+  if (lower.includes('erythem') || lower.includes('eritem')) return 'Eritema / Inflamación Leve';
+  if (lower.includes('dermatit') || lower.includes('allerg')) return 'Dermatitis por Adhesivo';
+  if (lower.includes('necrot') || lower.includes('esfacel')) return 'Tejido Desvitalizado';
+  if (lower.includes('bleed') || lower.includes('sangr')) return 'Sangrado en Incisión';
