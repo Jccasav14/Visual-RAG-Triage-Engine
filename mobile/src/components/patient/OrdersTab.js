@@ -238,3 +238,62 @@ const styles = StyleSheet.create({
   progressFill: {
     height: '100%',
     borderRadius: 3,
+  },
+  metricsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 14,
+    paddingTop: 12,
+    borderTopWidth: 1,
+  },
+  metricCol: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  metricColLbl: {
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
+  metricColVal: {
+    fontSize: 14,
+    fontWeight: '800',
+    marginTop: 3,
+  },
+  listWrap: {
+    marginTop: 14,
+    gap: 10,
+  },
+  itemRow: {
+    padding: 14,
+    borderRadius: 12,
+  },
+  itemText: {
+    fontSize: 13,
+    lineHeight: 19,
+    fontWeight: '500',
+  },
+  emptyText: {
+    fontSize: 13,
+    marginTop: 10,
+  },
+  emptyBox: {
+    borderRadius: 16,
+    borderWidth: 1,
+    padding: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  emptyBoxTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    marginTop: 12,
+  },
+  emptyBoxDesc: {
+    fontSize: 13,
+    textAlign: 'center',
+    marginTop: 6,
+    lineHeight: 18,
+  },
+});
