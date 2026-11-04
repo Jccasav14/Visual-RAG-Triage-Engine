@@ -291,3 +291,70 @@ export const ReportsTab = ({
               </View>
               <TouchableOpacity onPress={() => setSelectedReportDetail(null)} style={{ padding: 4 }}>
                 <X size={22} color={theme.textMuted} />
+              </TouchableOpacity>
+            </View>
+
+            {selectedReportDetail && (
+              <ScrollView style={{ maxHeight: 440 }} showsVerticalScrollIndicator={false}>
+                <View style={[styles.modalCertBox, { backgroundColor: theme.cardSub }]}>
+                  <Text style={[styles.folioText, { color: theme.primary }]}>FOLIO: {selectedReportDetail.id}</Text>
+                  <Text style={[styles.certPatient, { color: theme.text }]}>Paciente: {user?.fullName || user?.email}</Text>
+                  <Text style={[styles.dateText, { color: theme.textMuted }]}>
+                    Fecha: {selectedReportDetail.date} ({selectedReportDetail.time}) • Día {selectedReportDetail.recoveryDay}
+                  </Text>
+                </View>
+
+                {/* IMÁGENES EVALUADAS */}
+                {Array.isArray(selectedReportDetail.imageUris) && selectedReportDetail.imageUris.length > 0 && (
+                  <View style={styles.modalPhotosCenteredWrap}>
+                    {selectedReportDetail.imageUris.map((imgSrc, idx) => (
+                      <Image
+                        key={idx}
+                        source={{
+                          uri: imgSrc.startsWith('data:') || imgSrc.startsWith('http') || imgSrc.startsWith('file:')
+                            ? imgSrc
+                            : `data:image/jpeg;base64,${imgSrc}`,
+                        }}
+                        style={styles.modalReportThumb}
+                      />
+                    ))}
+                  </View>
+                )}
+
+                <View style={[styles.certSection, { borderTopColor: theme.cardSub }]}>
+                  <Text style={[styles.certHeading, { color: theme.primary }]}>EVALUACIÓN DE INCISIÓN</Text>
+                  <Text style={[styles.modalClassTitle, { color: theme.text }]}>
+                    {formatWoundClass(selectedReportDetail.classification)}
+                  </Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}>
+                    <View
+                      style={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: 4,
+                        backgroundColor: getClinicalBadge(selectedReportDetail.severity, selectedReportDetail.classification).dot,
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: '700',
+                        color: getClinicalBadge(selectedReportDetail.severity, selectedReportDetail.classification).color,
+                      }}
+                    >
+                      Estado: {getClinicalBadge(selectedReportDetail.severity, selectedReportDetail.classification).text}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={[styles.certSection, { borderTopColor: theme.cardSub }]}>
+                  <Text style={[styles.certHeading, { color: theme.primary }]}>SUGERENCIAS CLÍNICAS</Text>
+                  <Text style={[styles.certPlanText, { color: theme.text }]}>{selectedReportDetail.plan}</Text>
+                </View>
+
+                <View style={[styles.digitalStamp, { backgroundColor: theme.primaryBg, borderColor: theme.primary }]}>
+                  <ShieldCheck size={20} color={theme.primary} />
+                  <Text style={[styles.digitalStampText, { color: theme.primary }]}>
+                    Documento Clínico Digital Verificado • Visual RAG Postop
+                  </Text>
+                </View>
