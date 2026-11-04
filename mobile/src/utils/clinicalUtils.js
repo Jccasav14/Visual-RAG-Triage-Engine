@@ -49,3 +49,5 @@ export const getClinicalBadge = (severity, className = '') => {
   return { text: 'Evolución Favorable', bg: '#ecfdf5', color: '#059669', dot: '#10b981' };
 };
 
+
+// commit step: 76
