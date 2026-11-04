@@ -358,3 +358,92 @@ export const ReportsTab = ({
                     Documento Clínico Digital Verificado • Visual RAG Postop
                   </Text>
                 </View>
+              </ScrollView>
+            )}
+
+            {selectedReportDetail && (
+              <TouchableOpacity
+                style={[styles.modalDownloadBtn, { backgroundColor: theme.primary }]}
+                onPress={() => handleExportPDF(selectedReportDetail)}
+                disabled={generatingPdf}
+              >
+                {generatingPdf ? (
+                  <ActivityIndicator color="#FFFFFF" size="small" />
+                ) : (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Download size={18} color="#FFFFFF" />
+                    <Text style={styles.modalDownloadBtnText}>Descargar Reporte en PDF</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: { gap: 14 },
+  topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 },
+  sectionHeading: { fontSize: 20, fontWeight: '800' },
+  emptyCard: {
+    padding: 30,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+  },
+  emptyIconCircle: { width: 68, height: 68, borderRadius: 34, alignItems: 'center', justifyContent: 'center', marginBottom: 14 },
+  emptyTitle: { fontSize: 17, fontWeight: '800', textAlign: 'center' },
+  emptySub: { fontSize: 13, textAlign: 'center', marginTop: 6, maxWidth: 280, lineHeight: 18 },
+  emptyActionBtn: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12, marginTop: 18 },
+  emptyActionBtnText: { color: '#FFFFFF', fontSize: 14, fontWeight: '800' },
+  reportCard: { borderRadius: 14, borderWidth: 1, padding: 14 },
+  cardHeader: { flexDirection: 'row', alignItems: 'center' },
+  cardHeaderTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
+  folioText: { fontSize: 12, fontWeight: '800' },
+  badgePill: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6 },
+  badgeText: { fontSize: 10, fontWeight: '800' },
+  classTitle: { fontSize: 15, fontWeight: '800' },
+  dateText: { fontSize: 11, fontWeight: '600', marginTop: 2 },
+  planBox: { padding: 10, borderRadius: 8, marginVertical: 8 },
+  planTitle: { fontSize: 12, fontWeight: '800' },
+  planContent: { fontSize: 12, lineHeight: 17 },
+  buttonsRow: { flexDirection: 'row', gap: 10, marginTop: 4 },
+  btnHalf: { flex: 1, height: 40, borderRadius: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  btnHalfText: { color: '#FFFFFF', fontSize: 13, fontWeight: '700' },
+  btnHalfSecondary: { flex: 1, height: 40, borderRadius: 10, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  btnHalfSecondaryText: { fontSize: 13, fontWeight: '700' },
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 20 },
+  modalCard: { width: '100%', maxWidth: 440, borderRadius: 16, padding: 16, elevation: 8 },
+  modalHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: '#e2e8f0' },
+  modalHeading: { fontSize: 16, fontWeight: '800' },
+  modalCertBox: { padding: 10, borderRadius: 8, marginTop: 10 },
+  modalPhotosCenteredWrap: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+    flexWrap: 'wrap',
+    marginTop: 12,
+    marginBottom: 4,
+  },
+  modalReportThumb: {
+    width: 130,
+    height: 130,
+    borderRadius: 10,
+    resizeMode: 'cover',
+  },
+  certPatient: { fontSize: 13, fontWeight: '700', marginTop: 2 },
+  certSection: { marginTop: 10, paddingTop: 8, borderTopWidth: 1 },
+  certHeading: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5 },
+  modalClassTitle: { fontSize: 14, fontWeight: '800', marginTop: 2 },
+  certPlanText: { fontSize: 12, lineHeight: 18, marginTop: 2 },
+  digitalStamp: { marginTop: 12, padding: 10, borderRadius: 8, borderWidth: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  digitalStampText: { fontSize: 11, fontWeight: '700', flex: 1 },
+  modalDownloadBtn: { marginTop: 14, height: 46, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  modalDownloadBtnText: { color: '#FFFFFF', fontSize: 14, fontWeight: '800' },
+});
+
