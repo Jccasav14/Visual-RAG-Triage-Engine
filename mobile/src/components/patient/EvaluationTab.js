@@ -120,3 +120,43 @@ export const EvaluationTab = ({
                 <View
                   key={index}
                   style={
+                    selectedImages.length === 1
+                      ? styles.photoSingleItem
+                      : styles.photoGridItem
+                  }
+                >
+                  <Image
+                    source={{ uri }}
+                    style={
+                      selectedImages.length === 1
+                        ? styles.photoSingleThumbnail
+                        : styles.photoGridThumbnail
+                    }
+                  />
+                  <TouchableOpacity
+                    style={styles.deletePhotoCircle}
+                    onPress={() => onRemoveImage(index)}
+                  >
+                    <X size={14} color="#FFFFFF" />
+                  </TouchableOpacity>
+                  <View style={styles.photoIndexBadge}>
+                    <Text style={styles.photoIndexText}>#{index + 1}</Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+
+          {/* SÍNTOMAS Y ANALIZAR */}
+          <View style={[styles.symptomsCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            <Text style={[styles.symptomsCardHeading, { color: theme.text }]}>
+              ¿Presentas alguna molestia hoy?
+            </Text>
+            <Text style={[styles.symptomsCardSub, { color: theme.textMuted }]}>
+              Describe si sientes dolor, ardor, secreción o tirantez:
+            </Text>
+            <TextInput
+              style={[
+                styles.symptomsInput,
+                {
+                  backgroundColor: theme.cardSub,
