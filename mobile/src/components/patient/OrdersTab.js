@@ -118,3 +118,63 @@ export const OrdersTab = ({
             <View style={styles.cardHeader}>
               <View style={[styles.iconBox, { backgroundColor: theme.primaryBg }]}>
                 <CheckCircle2 size={20} color={theme.primary} />
+              </View>
+              <Text style={[styles.cardTitle, { color: theme.text }]}>Cuidados Permitidos</Text>
+            </View>
+
+            {careList.length === 0 ? (
+              <Text style={[styles.emptyText, { color: theme.textMuted }]}>
+                No hay cuidados específicos registrados.
+              </Text>
+            ) : (
+              <View style={styles.listWrap}>
+                {careList.map((item, idx) => (
+                  <View key={idx} style={[styles.itemRow, { backgroundColor: theme.cardSub }]}>
+                    <Text style={[styles.itemText, { color: theme.text }]}>{item}</Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
+
+          {/* 4. SEÑALES DE ALERTA Y ALERGIAS (SIN EMOJIS) */}
+          <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            <View style={styles.cardHeader}>
+              <View style={[styles.iconBox, { backgroundColor: theme.primaryBg }]}>
+                <AlertTriangle size={20} color={theme.primary} />
+              </View>
+              <Text style={[styles.cardTitle, { color: theme.text }]}>Señales de Alerta & Alergias</Text>
+            </View>
+
+            {emergencyList.length === 0 && !doctorRestrictions.allergies ? (
+              <Text style={[styles.emptyText, { color: theme.textMuted }]}>
+                Sin señales de alarma adicionales.
+              </Text>
+            ) : (
+              <View style={styles.listWrap}>
+                {emergencyList.map((item, idx) => (
+                  <View key={idx} style={[styles.itemRow, { backgroundColor: theme.cardSub }]}>
+                    <Text style={[styles.itemText, { color: theme.text }]}>{item}</Text>
+                  </View>
+                ))}
+                {!!doctorRestrictions.allergies && (
+                  <View style={[styles.itemRow, { backgroundColor: theme.cardSub }]}>
+                    <Text style={[styles.itemText, { color: theme.text, fontWeight: '700' }]}>
+                      Alergias: {doctorRestrictions.allergies}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            )}
+          </View>
+        </View>
+      ) : (
+        <View style={[styles.emptyBox, { backgroundColor: theme.card, borderColor: theme.border }]}>
+          <Stethoscope size={38} color={theme.textMuted} />
+          <Text style={[styles.emptyBoxTitle, { color: theme.text }]}>Sin órdenes asignadas</Text>
+          <Text style={[styles.emptyBoxDesc, { color: theme.textMuted }]}>
+            Tu cirujano tratante aún no ha registrado la ficha clínica para tu procedimiento.
+          </Text>
+        </View>
+      )}
+    </View>
