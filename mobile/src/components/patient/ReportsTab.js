@@ -223,3 +223,71 @@ export const ReportsTab = ({
           {dailyReports.map((report) => {
             const badge = getClinicalBadge(report.severity, report.classification);
             const cleanClass = formatWoundClass(report.classification);
+
+            return (
+              <View
+                key={report.id}
+                style={[styles.reportCard, { backgroundColor: theme.card, borderColor: theme.border }]}
+              >
+                <View style={styles.cardHeader}>
+                  <View style={{ flex: 1 }}>
+                    <View style={styles.cardHeaderTop}>
+                      <Text style={[styles.folioText, { color: theme.primary }]}>{report.id}</Text>
+                      <View style={[styles.badgePill, { backgroundColor: badge.bg }]}>
+                        <Text style={[styles.badgeText, { color: badge.color }]}>{badge.text}</Text>
+                      </View>
+                    </View>
+
+                    <Text style={[styles.classTitle, { color: theme.text }]}>{cleanClass}</Text>
+                    <Text style={[styles.dateText, { color: theme.textMuted }]}>
+                      Día {report.recoveryDay} • {report.date} ({report.time})
+                    </Text>
+                  </View>
+                </View>
+
+                {/* CUERPO DEL REPORTE RESUMIDO */}
+                <View style={[styles.planBox, { backgroundColor: theme.cardSub }]}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 3 }}>
+                    <Sparkles size={14} color={theme.primary} />
+                    <Text style={[styles.planTitle, { color: theme.text }]}>Plan Médico del Día:</Text>
+                  </View>
+                  <Text style={[styles.planContent, { color: theme.text }]} numberOfLines={2}>
+                    {report.plan}
+                  </Text>
+                </View>
+
+                {/* BOTONES LIMPIOS 50% / 50% */}
+                <View style={styles.buttonsRow}>
+                  <TouchableOpacity
+                    style={[styles.btnHalf, { backgroundColor: theme.primary }]}
+                    onPress={() => handleExportPDF(report)}
+                    disabled={generatingPdf}
+                  >
+                    <Download size={16} color="#FFFFFF" />
+                    <Text style={styles.btnHalfText}>Descargar PDF</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[styles.btnHalfSecondary, { backgroundColor: theme.cardSub, borderColor: theme.border }]}
+                    onPress={() => setSelectedReportDetail(report)}
+                  >
+                    <Text style={[styles.btnHalfSecondaryText, { color: theme.text }]}>Ver Detalle</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            );
+          })}
+        </View>
+      )}
+
+      {/* MODAL DETALLE DE REPORTE COMPLETO */}
+      <Modal visible={!!selectedReportDetail} animationType="slide" transparent>
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalCard, { backgroundColor: theme.card }]}>
+            <View style={styles.modalHeaderRow}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <Award size={22} color={theme.primary} />
+                <Text style={[styles.modalHeading, { color: theme.text }]}>Reporte Clínico Oficial</Text>
+              </View>
+              <TouchableOpacity onPress={() => setSelectedReportDetail(null)} style={{ padding: 4 }}>
+                <X size={22} color={theme.textMuted} />
