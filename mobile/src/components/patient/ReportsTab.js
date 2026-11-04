@@ -88,3 +88,71 @@ export const ReportsTab = ({
               .diag-title { font-size: 13px; font-weight: 800; color: #0f766e; }
               .diag-meta { font-size: 11px; color: #115e59; margin-top: 2px; font-weight: 600; }
               .images-wrap { text-align: center; margin-top: 6px; }
+              .plan-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 11px; line-height: 1.5; color: #334155; margin-top: 6px; white-space: pre-wrap; }
+              .footer { margin-top: 20px; padding-top: 8px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+              .footer-left { font-size: 10px; color: #0d9488; font-weight: 700; }
+              .footer-right { font-size: 9px; color: #94a3b8; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <div>
+                <h1 class="clinic-title">HOSPITAL DIGITAL • VISUAL RAG</h1>
+                <div class="clinic-sub">Sistema Inteligente de Seguimiento Postquirúrgico</div>
+              </div>
+              <div class="folio-box">
+                <div class="folio-num">FOLIO: ${report.id || 'N/A'}</div>
+                <div class="folio-date">${report.date || ''} • ${report.time || ''}</div>
+              </div>
+            </div>
+
+            <div class="section-title">Información del Paciente y Procedimiento</div>
+            <div class="info-grid">
+              <div class="info-cell">
+                <div class="info-label">Paciente</div>
+                <div class="info-val">${user?.fullName || user?.email || 'Paciente Registrado'}</div>
+              </div>
+              <div class="info-cell">
+                <div class="info-label">Cédula / DNI</div>
+                <div class="info-val">${user?.cedula || 'Registrado en ficha'}</div>
+              </div>
+              <div class="info-cell">
+                <div class="info-label">Cirugía Registrada</div>
+                <div class="info-val">${report.surgeryType || 'Postoperatorio General'}</div>
+              </div>
+              <div class="info-cell">
+                <div class="info-label">Cronograma</div>
+                <div class="info-val">Día ${report.recoveryDay || 1} de reposo</div>
+              </div>
+            </div>
+
+            <div class="section-title">Evaluación de la Incisión Quirúrgica</div>
+            <div class="diag-card">
+              <div class="diag-title">${formatWoundClass(report.classification)}</div>
+              <div class="diag-meta">
+                Estado: ${badge.text} • ${safeImages.length || 1} perspectiva(s) evaluada(s)
+              </div>
+            </div>
+
+            ${photosHtml ? `<div class="section-title">Fotografías Evaluadas</div><div class="images-wrap">${photosHtml}</div>` : ''}
+
+            <div class="section-title">Síntomas Reportados por el Paciente</div>
+            <div style="font-size:11px; color:#475569; background:#f8fafc; padding:8px 10px; border-radius:6px; border:1px solid #e2e8f0; margin-top:4px;">
+              ${report.symptoms || 'Sin molestias particulares referidas.'}
+            </div>
+
+            <div class="section-title">Indicaciones Médicas y Sugerencias de Cuidado</div>
+            <div class="plan-box">${report.plan || 'Continuar con el régimen médico establecido por su cirujano tratante.'}</div>
+
+            <div class="footer">
+              <div class="footer-left">Documento Clínico Digital Verificado • Visual RAG Postop</div>
+              <div class="footer-right">Generado electrónicamente</div>
+            </div>
+          </body>
+          </html>
+        `;
+      };
+
+      let htmlContent = buildHtml(true);
+      let pdfResult;
+      try {
