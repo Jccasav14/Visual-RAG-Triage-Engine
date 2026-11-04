@@ -58,3 +58,63 @@ export const OrdersTab = ({
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={[styles.cardTitle, { color: theme.text }]}>
+                  {doctorRestrictions.surgeryType || 'Cirugía Programada'}
+                </Text>
+                <Text style={[styles.cardSub, { color: theme.textMuted }]}>
+                  Inicio: {doctorRestrictions.startDate || 'No especificada'}
+                </Text>
+              </View>
+              <View style={[styles.badgePill, { backgroundColor: theme.primaryBg }]}>
+                <Text style={[styles.badgePillText, { color: theme.primary }]}>{progressPercent}%</Text>
+              </View>
+            </View>
+
+            <View style={[styles.progressTrack, { backgroundColor: theme.cardSub }]}>
+              <View style={[styles.progressFill, { width: `${progressPercent}%`, backgroundColor: theme.primary }]} />
+            </View>
+
+            <View style={[styles.metricsRow, { borderTopColor: theme.cardSub }]}>
+              <View style={styles.metricCol}>
+                <Text style={[styles.metricColLbl, { color: theme.textMuted }]}>DÍA ACTUAL</Text>
+                <Text style={[styles.metricColVal, { color: theme.text }]}>Día {recoveryDay}</Text>
+              </View>
+              <View style={styles.metricCol}>
+                <Text style={[styles.metricColLbl, { color: theme.textMuted }]}>REPOSO TOTAL</Text>
+                <Text style={[styles.metricColVal, { color: theme.text }]}>{totalDays} Días</Text>
+              </View>
+              <View style={styles.metricCol}>
+                <Text style={[styles.metricColLbl, { color: theme.textMuted }]}>DÍAS RESTANTES</Text>
+                <Text style={[styles.metricColVal, { color: theme.primary }]}>{daysRemaining} Días</Text>
+              </View>
+            </View>
+          </View>
+
+          {/* 2. ACCIONES PROHIBIDAS (SIN EMOJIS, FONDO MINT EN ÍCONO COMO EN LA FOTO) */}
+          <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            <View style={styles.cardHeader}>
+              <View style={[styles.iconBox, { backgroundColor: theme.primaryBg }]}>
+                <Ban size={20} color={theme.primary} />
+              </View>
+              <Text style={[styles.cardTitle, { color: theme.text }]}>Acciones Prohibidas</Text>
+            </View>
+
+            {prohibitionsList.length === 0 ? (
+              <Text style={[styles.emptyText, { color: theme.textMuted }]}>
+                No hay prohibiciones específicas registradas.
+              </Text>
+            ) : (
+              <View style={styles.listWrap}>
+                {prohibitionsList.map((item, idx) => (
+                  <View key={idx} style={[styles.itemRow, { backgroundColor: theme.cardSub }]}>
+                    <Text style={[styles.itemText, { color: theme.text }]}>{item}</Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
+
+          {/* 3. CUIDADOS PERMITIDOS (SIN EMOJIS, FONDO MINT EN ÍCONO COMO EN LA FOTO) */}
+          <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            <View style={styles.cardHeader}>
+              <View style={[styles.iconBox, { backgroundColor: theme.primaryBg }]}>
+                <CheckCircle2 size={20} color={theme.primary} />
