@@ -79,3 +79,44 @@ export const EvaluationTab = ({
           </TouchableOpacity>
 
           <View style={styles.twinButtonsRow}>
+            <TouchableOpacity
+              style={[styles.twinBtnPrimary, { backgroundColor: theme.primary }]}
+              onPress={onTakePhoto}
+            >
+              <Camera size={18} color="#FFFFFF" />
+              <Text style={styles.twinBtnPrimaryText}>Abrir Cámara</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.twinBtnSecondary, { backgroundColor: theme.cardSub, borderColor: theme.border }]}
+              onPress={onPickGallery}
+            >
+              <ImageIcon size={18} color={theme.text} />
+              <Text style={[styles.twinBtnSecondaryText, { color: theme.text }]}>Galería</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : (
+        /* PASO 2: GRILLA CENTRADA DE FOTOS + SÍNTOMAS */
+        <View style={{ gap: 14 }}>
+          <View style={[styles.photoCardBlock, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            <View style={styles.photosHeaderRow}>
+              <Text style={[styles.photosHeaderTitle, { color: theme.text }]}>
+                Fotos de la Incisión ({selectedImages.length}/4):
+              </Text>
+              {selectedImages.length < 4 && (
+                <TouchableOpacity
+                  style={[styles.addMoreMiniBtn, { backgroundColor: theme.primaryBg }]}
+                  onPress={onPromptAddPhoto}
+                >
+                  <Plus size={14} color={theme.primary} />
+                  <Text style={[styles.addMoreMiniText, { color: theme.primary }]}>Agregar Foto</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+
+            <View style={styles.multiPhotosGrid}>
+              {selectedImages.map((uri, index) => (
+                <View
+                  key={index}
+                  style={
