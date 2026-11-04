@@ -40,3 +40,8 @@ export const formatWoundClass = (className) => {
 export const getClinicalBadge = (severity, className = '') => {
   const c = String(className).toLowerCase();
   const s = String(severity).toUpperCase();
+  if (s === 'HIGH' || s === 'CRITICAL' || c.includes('infecci') || c.includes('dehiscenc') || c.includes('necros') || c.includes('bleed')) {
+    return { text: 'Atención Requerida', bg: '#fef2f2', color: '#dc2626', dot: '#ef4444' };
+  }
+  if (s === 'MEDIUM' || c.includes('eritema') || c.includes('seroma') || c.includes('hematoma') || c.includes('allerg')) {
+    return { text: 'En Observación', bg: '#fefce8', color: '#a16207', dot: '#eab308' };
