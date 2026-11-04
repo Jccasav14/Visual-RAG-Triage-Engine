@@ -32,3 +32,11 @@ export const formatWoundClass = (className) => {
   if (lower.includes('dermatit') || lower.includes('allerg')) return 'Dermatitis por Adhesivo';
   if (lower.includes('necrot') || lower.includes('esfacel')) return 'Tejido Desvitalizado';
   if (lower.includes('bleed') || lower.includes('sangr')) return 'Sangrado en Incisión';
+  if (lower.includes('normal') || lower.includes('suture') || lower.includes('eutr')) return 'Cicatrización Normal';
+  return 'Evolución Quirúrgica Normal';
+};
+
+// Semáforo clínico visual para el paciente (sin porcentajes técnicos de certeza)
+export const getClinicalBadge = (severity, className = '') => {
+  const c = String(className).toLowerCase();
+  const s = String(severity).toUpperCase();
