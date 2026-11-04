@@ -45,3 +45,7 @@ export const getClinicalBadge = (severity, className = '') => {
   }
   if (s === 'MEDIUM' || c.includes('eritema') || c.includes('seroma') || c.includes('hematoma') || c.includes('allerg')) {
     return { text: 'En Observación', bg: '#fefce8', color: '#a16207', dot: '#eab308' };
+  }
+  return { text: 'Evolución Favorable', bg: '#ecfdf5', color: '#059669', dot: '#10b981' };
+};
+
