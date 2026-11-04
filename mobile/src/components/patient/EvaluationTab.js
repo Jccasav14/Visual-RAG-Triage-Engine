@@ -160,3 +160,30 @@ export const EvaluationTab = ({
                 styles.symptomsInput,
                 {
                   backgroundColor: theme.cardSub,
+                  color: theme.text,
+                  borderColor: theme.border,
+                },
+              ]}
+              placeholder="Ej: Siento leve tirantez y picazón al caminar..."
+              placeholderTextColor={theme.textMuted}
+              multiline
+              numberOfLines={3}
+              value={symptoms}
+              onChangeText={setSymptoms}
+            />
+
+            <TouchableOpacity
+              style={[
+                styles.evaluateButton,
+                { backgroundColor: theme.primary },
+                evaluating && { opacity: 0.7 },
+              ]}
+              onPress={onSubmitEvaluation}
+              disabled={evaluating}
+            >
+              {evaluating ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <ActivityIndicator color="#FFFFFF" size="small" />
+                  <Text style={styles.evaluateButtonText}>Analizando Incisión con IA...</Text>
+                </View>
+              ) : (
