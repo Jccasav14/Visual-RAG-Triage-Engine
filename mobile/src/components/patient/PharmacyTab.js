@@ -104,3 +104,38 @@ export const PharmacyTab = ({ recoveryDay, latestReport }) => {
               Fybeca • Entrega en 30 min
             </Text>
           </View>
+          <View style={{ alignItems: 'flex-end' }}>
+            <Text style={styles.itemPrice}>$4.50</Text>
+            <TouchableOpacity
+              style={[styles.buyBtn, { backgroundColor: theme.primaryBg }]}
+              onPress={() => Linking.openURL('https://www.fybeca.com').catch(() => Alert.alert('Farmacia', 'Disponible en Fybeca.'))}
+            >
+              <Text style={[styles.buyBtnText, { color: theme.primary }]}>
+                Pedir Online ↗
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: { gap: 12 },
+  heading: { fontSize: 20, fontWeight: '800', marginBottom: 2 },
+  card: {
+    borderWidth: 1,
+    borderRadius: 14,
+    padding: 14,
+  },
+  cardHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 4,
+  },
+  aiTag: { fontSize: 12, fontWeight: '800', color: '#0f766e' },
+  aiText: { fontSize: 13, fontWeight: '500', lineHeight: 18 },
+  priceHeaderRow: {
+    flexDirection: 'row',
