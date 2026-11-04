@@ -178,3 +178,63 @@ export const OrdersTab = ({
         </View>
       )}
     </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    gap: 14,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  sectionHeading: {
+    fontSize: 20,
+    fontWeight: '800',
+  },
+  card: {
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  iconBox: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  cardSub: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  badgePill: {
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 12,
+  },
+  badgePillText: {
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  progressTrack: {
+    height: 6,
+    borderRadius: 3,
+    marginTop: 14,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    borderRadius: 3,
