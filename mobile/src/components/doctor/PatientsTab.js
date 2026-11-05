@@ -132,3 +132,69 @@ export const PatientsTab = ({
           placeholderTextColor={theme.textMuted}
           value={searchFilter}
           onChangeText={setSearchFilter}
+        />
+        {onRefresh && (
+          <TouchableOpacity onPress={onRefresh} style={{ padding: 6 }}>
+            <RefreshCw size={16} color={theme.primary} />
+          </TouchableOpacity>
+        )}
+      </View>
+
+      {loadingPatients ? (
+        <ActivityIndicator color={theme.primary} style={{ marginTop: 24 }} />
+      ) : filteredPatients.length === 0 ? (
+        <View style={[styles.emptyCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
+          <Users size={40} color={theme.textMuted} />
+          <Text style={[styles.emptyCardTitle, { color: theme.text }]}>Sin pacientes asignados</Text>
+          <Text style={[styles.emptyCardSub, { color: theme.textMuted }]}>
+            Toca "+ Asignar" para buscar pacientes registrados en el sistema y agregarlos a tu seguimiento.
+          </Text>
+        </View>
+      ) : (
+        <View style={{ gap: 12, marginTop: 14 }}>
+          {filteredPatients.map((patient) => {
+            const isSelected = selectedPatient?.id === patient.id;
+            return (
+              <View
+                key={patient.id}
+                style={[
+                  styles.patientCard,
+                  { backgroundColor: theme.card, borderColor: isSelected ? theme.primary : theme.border },
+                  isSelected && { borderWidth: 2 },
+                ]}
+              >
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                  <View style={[styles.patientAvatar, { backgroundColor: theme.primaryBg }]}>
+                    <User size={20} color={theme.primary} />
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.patientName, { color: theme.text }]}>
+                      {patient.fullName || patient.email}
+                    </Text>
+                    <Text style={[styles.patientEmail, { color: theme.textMuted }]}>{patient.email}</Text>
+                    <View style={{ flexDirection: 'row', gap: 8, marginTop: 4 }}>
+                      {!!patient.cedula && (
+                        <Text style={[styles.patientCedula, { color: theme.primary }]}>CI: {patient.cedula}</Text>
+                      )}
+                      {!!patient.bloodType && (
+                        <Text style={[styles.patientBadge, { color: theme.textMuted }]}>
+                          Grupo: {patient.bloodType}
+                        </Text>
+                      )}
+                    </View>
+                  </View>
+                </View>
+
+                <View style={[styles.patientActionsRow, { borderTopColor: theme.cardSub }]}>
+                  <TouchableOpacity
+                    style={[styles.editFichaBtn, { backgroundColor: theme.primary }]}
+                    onPress={() => onSelectPatientForEdit(patient)}
+                  >
+                    <FileText size={15} color="#FFFFFF" />
+                    <Text style={styles.editFichaBtnText}>Ficha Postoperatoria</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[styles.unassignBtn, { backgroundColor: theme.dangerBg }]}
+                    onPress={() => handleUnassignPatient(patient)}
+                  >
