@@ -256,3 +256,107 @@ export const PatientTabs = ({ user, token, onLogout, onUpdateUser }) => {
       Alert.alert(
         'Error de Evaluación',
         'No se pudo conectar con el servicio clínico. Verifica que los servicios estén activos.'
+      );
+    } finally {
+      setEvaluating(false);
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    setSavingProfile(true);
+    setProfileMsg('');
+    try {
+      const updated = await api.updateProfile(user.id, {
+        fullName: fullName.trim(),
+        cedula: cedula.trim(),
+        phone: phone.trim(),
+        bloodType: bloodType.trim(),
+        emergencyContact: emergencyContact.trim(),
+        birthDate: birthDate.trim(),
+      });
+      if (onUpdateUser) onUpdateUser(updated);
+      setProfileMsg('Perfil actualizado exitosamente.');
+      setTimeout(() => setProfileMsg(''), 4000);
+    } catch {
+      Alert.alert('Error', 'No se pudo actualizar el perfil.');
+    } finally {
+      setSavingProfile(false);
+    }
+  };
+
+  return (
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg }]}>
+      <StatusBar barStyle={theme.statusBarStyle} backgroundColor={theme.headerBg} translucent={false} />
+
+      {/* TOP HEADER */}
+      <View style={[styles.header, { backgroundColor: theme.headerBg, borderBottomColor: theme.border }]}>
+        <View style={styles.headerLeft}>
+          <View style={[styles.headerIconContainer, { backgroundColor: theme.primaryBg }]}>
+            <Heart size={20} color={theme.primary} />
+          </View>
+          <View style={styles.headerTextGroup}>
+            <Text style={[styles.headerSubtitle, { color: theme.primary }]}>PORTAL PACIENTE</Text>
+            <Text style={[styles.headerTitle, { color: theme.text }]} numberOfLines={1}>
+              {user.fullName || user.email}
+            </Text>
+          </View>
+        </View>
+
+        <View style={[styles.dayBadge, { backgroundColor: theme.primaryBg, borderColor: theme.border }]}>
+          <Text style={[styles.dayBadgeText, { color: theme.primary }]}>Día {recoveryDay}</Text>
+        </View>
+      </View>
+
+      {/* CONTENT TABS */}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1, padding: 16, paddingBottom: 24 }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          {activeTab === 'CAPTURE' && (
+            <EvaluationTab
+              doctorRestrictions={doctorRestrictions}
+              recoveryDay={recoveryDay}
+              totalDays={totalDays}
+              progressPercent={progressPercent}
+              selectedImages={selectedImages}
+              symptoms={symptoms}
+              setSymptoms={setSymptoms}
+              evaluating={evaluating}
+              onTakePhoto={takePhotoCamera}
+              onPickGallery={pickImageGallery}
+              onPromptAddPhoto={promptAddPhoto}
+              onRemoveImage={removeImage}
+              onSubmitEvaluation={handleEvaluate}
+            />
+          )}
+
+          {activeTab === 'REPORTS' && (
+            <ReportsTab
+              user={user}
+              dailyReports={dailyReports}
+              loadingReports={loadingReports}
+              onRefresh={loadPatientReports}
+              onGoToEvaluation={() => setActiveTab('CAPTURE')}
+            />
+          )}
+
+          {activeTab === 'PHARMACY' && (
+            <PharmacyTab
+              recoveryDay={recoveryDay}
+              latestReport={dailyReports[0]}
+            />
+          )}
+
+          {activeTab === 'ORDERS' && (
+            <OrdersTab
+              doctorRestrictions={doctorRestrictions}
+              recoveryDay={recoveryDay}
+              totalDays={totalDays}
+              daysRemaining={daysRemaining}
+              progressPercent={progressPercent}
