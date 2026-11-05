@@ -220,3 +220,97 @@ const styles = StyleSheet.create({
   roleBadgeText: {
     fontSize: 11,
     fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+  doctorPillsRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 14,
+  },
+  quickInfoPill: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  quickInfoText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  themeCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    marginTop: 14,
+  },
+  themeCardTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  themeCardSub: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  themeSwitchPill: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  themeSwitchPillText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  formCard: {
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    marginTop: 14,
+  },
+  formCardTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    marginBottom: 12,
+  },
+  inputLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    fontSize: 14,
+  },
+  saveProfileBtn: {
+    marginTop: 16,
+    borderRadius: 12,
+    paddingVertical: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  saveProfileBtnText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 14,
+  },
+  logoutBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    borderRadius: 12,
+    paddingVertical: 12,
+    marginTop: 16,
+  },
+  logoutBtnText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 14,
+  },
+});
+
