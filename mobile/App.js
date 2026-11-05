@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ThemeProvider, useTheme } from './src/context/ThemeContext';
 import { LoginScreen } from './src/components/LoginScreen';
-import { PatientTabs } from './src/components/PatientTabs';
-import { DoctorDashboard } from './src/components/DoctorDashboard';
+import { PatientTabs } from './src/components/patient/PatientTabs';
+import { DoctorDashboard } from './src/components/doctor/DoctorDashboard';
 
 function MainApp() {
   const [user, setUser] = useState(null);
