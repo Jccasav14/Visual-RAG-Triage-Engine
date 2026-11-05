@@ -124,3 +124,97 @@ export const PatientProfileTab = ({
               onChangeText={setPhone}
               placeholder="+593 98..."
               placeholderTextColor={theme.textMuted}
+              keyboardType="phone-pad"
+            />
+          </View>
+        </View>
+
+        <Text style={[styles.inputLabel, { color: theme.text, marginTop: 10 }]}>Contacto de Emergencia:</Text>
+        <TextInput
+          style={[styles.textInput, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder, color: theme.text }]}
+          value={emergencyContact}
+          onChangeText={setEmergencyContact}
+          placeholder="Ej. Carmen Casa (Madre) - 0987654321"
+          placeholderTextColor={theme.textMuted}
+        />
+
+        <TouchableOpacity
+          style={[styles.saveProfileBtn, { backgroundColor: theme.primary }]}
+          onPress={onSaveProfile}
+          disabled={savingProfile}
+        >
+          {savingProfile ? (
+            <ActivityIndicator color="#FFFFFF" size="small" />
+          ) : (
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Save size={16} color="#FFFFFF" />
+              <Text style={styles.saveProfileBtnText}>Guardar Datos Clínicos</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+
+        {!!profileMsg && (
+          <Text style={{ color: theme.success, marginTop: 8, fontWeight: '700', fontSize: 13 }}>
+            {profileMsg}
+          </Text>
+        )}
+      </View>
+
+      {/* 4. CERRAR SESIÓN */}
+      <TouchableOpacity
+        style={[styles.logoutBtn, { backgroundColor: theme.danger }]}
+        onPress={() => {
+          Alert.alert('Cerrar Sesión', '¿Estás seguro de que deseas salir?', [
+            { text: 'Cancelar', style: 'cancel' },
+            { text: 'Salir', style: 'destructive', onPress: onLogout },
+          ]);
+        }}
+      >
+        <LogOut size={18} color="#FFFFFF" />
+        <Text style={styles.logoutBtnText}>Cerrar Sesión</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    gap: 14,
+  },
+  sectionHeading: {
+    fontSize: 18,
+    fontWeight: '800',
+    marginBottom: 12,
+  },
+  profileCard: {
+    borderRadius: 16,
+    padding: 20,
+    borderWidth: 1,
+    alignItems: 'center',
+  },
+  avatarCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  profileName: {
+    fontSize: 18,
+    fontWeight: '800',
+  },
+  profileEmail: {
+    fontSize: 13,
+    marginTop: 2,
+  },
+  roleBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+    marginTop: 8,
+  },
+  roleBadgeText: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 0.5,
