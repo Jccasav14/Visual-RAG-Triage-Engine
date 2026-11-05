@@ -447,3 +447,153 @@ export const RestrictionsTab = ({
                   <TouchableOpacity
                     style={[styles.addCustomBtn, { backgroundColor: theme.primary }]}
                     onPress={() => handleAddItem(newEmergencyAlert, setNewEmergencyAlert, emergencyAlerts, setEmergencyAlerts)}
+                  >
+                    <Plus size={18} color="#FFFFFF" />
+                  </TouchableOpacity>
+                </View>
+
+                <Text style={[styles.inputLabel, { color: theme.text, marginTop: 14 }]}>Alergias del Paciente:</Text>
+                <TextInput
+                  style={[styles.textInput, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder, color: theme.text }]}
+                  placeholder="Ej. Penicilina, Látex, Ninguna..."
+                  placeholderTextColor={theme.textMuted}
+                  value={allergies}
+                  onChangeText={setAllergies}
+                />
+              </View>
+            )}
+          </View>
+
+          {/* BOTÓN GUARDAR FICHA */}
+          <TouchableOpacity
+            style={[styles.saveFichaActionBtn, { backgroundColor: theme.primary }]}
+            onPress={handleSaveRestrictions}
+            disabled={saving}
+          >
+            {saving ? (
+              <ActivityIndicator color="#FFFFFF" size="small" />
+            ) : (
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <Save size={18} color="#FFFFFF" />
+                <Text style={styles.saveFichaActionBtnText}>Guardar Ficha Postoperatoria</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+
+          {!!successMsg && (
+            <View style={[styles.successBox, { backgroundColor: theme.successBg, borderColor: theme.success }]}>
+              <CheckCircle size={18} color={theme.success} />
+              <Text style={[styles.successText, { color: theme.successText }]}>{successMsg}</Text>
+            </View>
+          )}
+        </View>
+      ) : (
+        <View style={[styles.emptyCard, { backgroundColor: theme.card, borderColor: theme.border, marginTop: 14 }]}>
+          <Text style={[styles.emptyCardTitle, { color: theme.text }]}>Ningún paciente seleccionado</Text>
+          <Text style={[styles.emptyCardSub, { color: theme.textMuted }]}>
+            Toca el selector superior para elegir a qué paciente deseas asignar la ficha postoperatoria.
+          </Text>
+        </View>
+      )}
+
+      {/* MODAL SELECCIONADOR DE PACIENTE */}
+      <Modal visible={showPatientPickerModal} animationType="slide" transparent>
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContainer, { backgroundColor: theme.card }]}>
+            <View style={styles.modalHeader}>
+              <Text style={[styles.modalTitle, { color: theme.text }]}>Seleccionar Paciente</Text>
+              <TouchableOpacity onPress={() => setShowPatientPickerModal(false)} style={{ padding: 4 }}>
+                <X size={22} color={theme.textMuted} />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView style={{ maxHeight: 340, marginTop: 8 }}>
+              {assignedPatients.map((p) => {
+                const isCurrent = selectedPatient?.id === p.id;
+                return (
+                  <TouchableOpacity
+                    key={p.id}
+                    style={[
+                      styles.modalPatientPickItem,
+                      { borderBottomColor: theme.cardSub, backgroundColor: isCurrent ? theme.primaryBg : 'transparent' },
+                    ]}
+                    onPress={() => {
+                      onSelectPatient(p);
+                      setShowPatientPickerModal(false);
+                    }}
+                  >
+                    <View style={{ flex: 1 }}>
+                      <Text style={{ fontSize: 15, fontWeight: '700', color: theme.text }}>
+                        {p.fullName || p.email}
+                      </Text>
+                      <Text style={{ fontSize: 12, color: theme.textMuted }}>
+                        {p.email} {p.cedula ? `• CI: ${p.cedula}` : ''}
+                      </Text>
+                    </View>
+                    {isCurrent && <Check size={20} color={theme.primary} />}
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+    paddingTop: 14,
+    paddingBottom: 24,
+  },
+  sectionHeading: {
+    fontSize: 18,
+    fontWeight: '800',
+    marginBottom: 12,
+  },
+  patientDropdownCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 14,
+    borderWidth: 1,
+  },
+  pickerIconCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pickerLabel: {
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+  pickerValue: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  changePill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  changePillText: {
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  accordionModule: {
+    borderRadius: 14,
+    borderWidth: 1,
+    overflow: 'hidden',
+  },
+  accordionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 14,
