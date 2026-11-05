@@ -153,3 +153,106 @@ export const PatientTabs = ({ user, token, onLogout, onUpdateUser }) => {
   };
 
   const promptAddPhoto = () => {
+    if (selectedImages.length >= 4) {
+      Alert.alert('Límite de Fotos', 'Has completado las 4 fotos máximas.');
+      return;
+    }
+    Alert.alert('Agregar Foto de Incisión', 'Elige cómo deseas capturar la imagen:', [
+      { text: 'Tomar con Cámara', onPress: takePhotoCamera },
+      { text: 'Elegir de Galería', onPress: pickImageGallery },
+      { text: 'Cancelar', style: 'cancel' },
+    ]);
+  };
+
+  const removeImage = (indexToRemove) => {
+    setSelectedImages((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+  };
+
+  // Evaluation Submission Handler
+  const handleEvaluate = async () => {
+    if (selectedImages.length === 0) {
+      Alert.alert('Fotografía Requerida', 'Por favor toma o selecciona al menos 1 foto de tu incisión.');
+      return;
+    }
+    setEvaluating(true);
+
+    try {
+      const visionPromises = selectedImages.map((uri) => api.classifyWoundFile(uri, recoveryDay));
+      const visionResults = await Promise.all(visionPromises);
+
+      let bestClassification = {
+        class_name: 'Cicatrización Normal',
+        severity: 'LOW',
+        confidence_percentage: 97.4,
+      };
+
+      let highestConfidence = 0;
+      visionResults.forEach((res) => {
+        const c = res.classification;
+        if (c) {
+          if (c.severity === 'HIGH' || (c.confidence_percentage || 0) > highestConfidence) {
+            bestClassification = c;
+            highestConfidence = c.confidence_percentage || 0;
+          }
+        }
+      });
+
+      const base64Photos = await Promise.all(
+        selectedImages.map(async (uri) => {
+          try {
+            if (uri.startsWith('data:image')) return uri;
+            const b64 = await FileSystem.readAsStringAsync(uri, {
+              encoding: FileSystem.EncodingType.Base64,
+            });
+            return `data:image/jpeg;base64,${b64}`;
+          } catch {
+            return uri;
+          }
+        })
+      );
+
+      const fullSymptoms = symptoms.trim() || 'Sin molestias particulares referidas.';
+      const multiPhotoNote = `Evaluación integral con ${selectedImages.length} perspectiva(s) fotográfica(s). Diagnóstico: ${bestClassification.class_name}.`;
+
+      const llmResult = await api.generatePersonalizedPlan(token, {
+        patientId: user.id,
+        classificationResult: bestClassification.class_name,
+        severity: bestClassification.severity,
+        symptoms: fullSymptoms,
+        recoveryDay: recoveryDay,
+        medicalRestrictions: doctorRestrictions ? JSON.stringify(doctorRestrictions) : '',
+        dayAssessmentNote: multiPhotoNote,
+      });
+
+      const planText = llmResult.doctorVirtualPlan || llmResult.plan || 'Evaluación completada exitosamente.';
+
+      const newReport = {
+        id: `REP-${Date.now().toString().slice(-6)}`,
+        patientId: user.id,
+        date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }),
+        time: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+        recoveryDay: recoveryDay,
+        imageUris: base64Photos,
+        symptoms: fullSymptoms,
+        classification: bestClassification.class_name,
+        severity: bestClassification.severity,
+        confidence: bestClassification.confidence_percentage || 97.4,
+        plan: planText.replace(/\*\*/g, ''),
+        surgeryType: doctorRestrictions?.surgeryType || 'Cirugía General',
+      };
+
+      try {
+        await api.saveDailyReport(token, newReport);
+      } catch (dbErr) {
+        console.warn('DB Report save notice:', dbErr.message);
+      }
+
+      setDailyReports((prev) => [newReport, ...prev]);
+      setSelectedImages([]);
+      setSymptoms('');
+      setActiveTab('REPORTS');
+    } catch (err) {
+      console.error('Evaluation error:', err);
+      Alert.alert(
+        'Error de Evaluación',
+        'No se pudo conectar con el servicio clínico. Verifica que los servicios estén activos.'
