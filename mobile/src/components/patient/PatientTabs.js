@@ -360,3 +360,106 @@ export const PatientTabs = ({ user, token, onLogout, onUpdateUser }) => {
               totalDays={totalDays}
               daysRemaining={daysRemaining}
               progressPercent={progressPercent}
+              onRefresh={fetchPatientRestrictions}
+            />
+          )}
+
+          {activeTab === 'PROFILE' && (
+            <PatientProfileTab
+              user={user}
+              fullName={fullName}
+              setFullName={setFullName}
+              cedula={cedula}
+              setCedula={setCedula}
+              phone={phone}
+              setPhone={setPhone}
+              bloodType={bloodType}
+              setBloodType={setBloodType}
+              emergencyContact={emergencyContact}
+              setEmergencyContact={setEmergencyContact}
+              savingProfile={savingProfile}
+              profileMsg={profileMsg}
+              onSaveProfile={handleSaveProfile}
+              onLogout={onLogout}
+            />
+          )}
+        </ScrollView>
+      </KeyboardAvoidingView>
+
+      {/* BOTTOM TAB BAR */}
+      <View style={[styles.bottomTabBar, { backgroundColor: theme.card, borderTopColor: theme.border }]}>
+        <TouchableOpacity
+          style={styles.tabBtn}
+          onPress={() => setActiveTab('CAPTURE')}
+          activeOpacity={0.7}
+        >
+          <Camera size={22} color={activeTab === 'CAPTURE' ? theme.primary : theme.textMuted} />
+          <Text style={[styles.tabBtnLabel, { color: activeTab === 'CAPTURE' ? theme.primary : theme.textMuted }]}>
+            Evaluación
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tabBtn}
+          onPress={() => setActiveTab('REPORTS')}
+          activeOpacity={0.7}
+        >
+          <FileCheck size={22} color={activeTab === 'REPORTS' ? theme.primary : theme.textMuted} />
+          <Text style={[styles.tabBtnLabel, { color: activeTab === 'REPORTS' ? theme.primary : theme.textMuted }]}>
+            Reportes
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tabBtn}
+          onPress={() => setActiveTab('PHARMACY')}
+          activeOpacity={0.7}
+        >
+          <ShieldCheck size={22} color={activeTab === 'PHARMACY' ? theme.primary : theme.textMuted} />
+          <Text style={[styles.tabBtnLabel, { color: activeTab === 'PHARMACY' ? theme.primary : theme.textMuted }]}>
+            Farmacia
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tabBtn}
+          onPress={() => setActiveTab('ORDERS')}
+          activeOpacity={0.7}
+        >
+          <FileText size={22} color={activeTab === 'ORDERS' ? theme.primary : theme.textMuted} />
+          <Text style={[styles.tabBtnLabel, { color: activeTab === 'ORDERS' ? theme.primary : theme.textMuted }]}>
+            Órdenes
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tabBtn}
+          onPress={() => setActiveTab('PROFILE')}
+          activeOpacity={0.7}
+        >
+          <User size={22} color={activeTab === 'PROFILE' ? theme.primary : theme.textMuted} />
+          <Text style={[styles.tabBtnLabel, { color: activeTab === 'PROFILE' ? theme.primary : theme.textMuted }]}>
+            Perfil
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: STATUS_BAR_HEIGHT,
+  },
+  header: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
