@@ -198,3 +198,70 @@ export const PatientsTab = ({
                     style={[styles.unassignBtn, { backgroundColor: theme.dangerBg }]}
                     onPress={() => handleUnassignPatient(patient)}
                   >
+                    <Trash2 size={16} color={theme.danger} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            );
+          })}
+        </View>
+      )}
+
+      {/* MODAL ASIGNAR NUEVO PACIENTE */}
+      <Modal visible={showAssignModal} animationType="slide" transparent>
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContainer, { backgroundColor: theme.card }]}>
+            <View style={styles.modalHeader}>
+              <Text style={[styles.modalTitle, { color: theme.text }]}>Asignar Paciente</Text>
+              <TouchableOpacity onPress={() => setShowAssignModal(false)} style={{ padding: 4 }}>
+                <X size={22} color={theme.textMuted} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={[styles.modalSearchBox, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder }]}>
+              <Search size={18} color={theme.textMuted} />
+              <TextInput
+                style={[styles.modalSearchInput, { color: theme.text }]}
+                placeholder="Buscar por nombre, CI o correo..."
+                placeholderTextColor={theme.textMuted}
+                value={modalSearchText}
+                onChangeText={handleSearchModalPatients}
+                autoFocus
+              />
+              {searchingModal && <ActivityIndicator size="small" color={theme.primary} />}
+            </View>
+
+            <ScrollView style={{ maxHeight: 340, marginTop: 12 }}>
+              {modalResults.length === 0 ? (
+                <Text style={{ textAlign: 'center', color: theme.textMuted, padding: 20, fontSize: 13 }}>
+                  No se encontraron pacientes para ese criterio.
+                </Text>
+              ) : (
+                modalResults.map((p) => {
+                  const isAlreadyMine = assignedPatients.some((ap) => ap.id === p.id);
+                  return (
+                    <View key={p.id} style={[styles.modalResultItem, { borderBottomColor: theme.cardSub }]}>
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ fontSize: 14, fontWeight: '700', color: theme.text }}>
+                          {p.fullName || p.email}
+                        </Text>
+                        <Text style={{ fontSize: 12, color: theme.textMuted }}>
+                          {p.email} {p.cedula ? `• CI: ${p.cedula}` : ''}
+                        </Text>
+                      </View>
+                      {isAlreadyMine ? (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                          <UserCheck size={16} color={theme.success} />
+                          <Text style={{ fontSize: 12, color: theme.success, fontWeight: '700' }}>Asignado</Text>
+                        </View>
+                      ) : (
+                        <TouchableOpacity
+                          style={[styles.modalAddBtn, { backgroundColor: theme.primary }]}
+                          onPress={() => handleLinkPatient(p.id)}
+                        >
+                          <Text style={styles.modalAddBtnText}>Vincular</Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  );
+                })
