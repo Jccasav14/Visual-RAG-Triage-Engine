@@ -298,3 +298,152 @@ export const RestrictionsTab = ({
                       <View key={idx} style={[styles.dynamicItemRow, { backgroundColor: theme.cardSub, borderColor: theme.border }]}>
                         <Text style={[styles.dynamicItemText, { color: theme.text }]}>• {item}</Text>
                         <TouchableOpacity
+                          onPress={() => handleRemoveItem(idx, prohibitions, setProhibitions)}
+                          style={styles.itemDeleteBtn}
+                        >
+                          <Trash2 size={16} color={theme.danger} />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </View>
+                )}
+
+                <View style={{ flexDirection: 'row', gap: 8, marginTop: 12 }}>
+                  <TextInput
+                    style={[styles.customInput, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder, color: theme.text }]}
+                    placeholder="Escribir nueva prohibición..."
+                    placeholderTextColor={theme.textMuted}
+                    value={newProhibition}
+                    onChangeText={setNewProhibition}
+                    onSubmitEditing={() => handleAddItem(newProhibition, setNewProhibition, prohibitions, setProhibitions)}
+                  />
+                  <TouchableOpacity
+                    style={[styles.addCustomBtn, { backgroundColor: theme.primary }]}
+                    onPress={() => handleAddItem(newProhibition, setNewProhibition, prohibitions, setProhibitions)}
+                  >
+                    <Plus size={18} color="#FFFFFF" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          </View>
+
+          {/* 3. CUIDADOS Y CURACIONES */}
+          <View style={[styles.accordionModule, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            <TouchableOpacity style={styles.accordionHeader} onPress={() => toggleSection('CARE')}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
+                <View style={[styles.modIcon, { backgroundColor: theme.primaryBg }]}>
+                  <CheckCircle2 size={18} color={theme.primary} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.modTitle, { color: theme.text }]}>3. Cuidados & Curaciones</Text>
+                  <Text style={[styles.modSub, { color: theme.textMuted }]}>
+                    {careActions.length > 0 ? `${careActions.length} indicación(es)` : 'Sin cuidados registrados'}
+                  </Text>
+                </View>
+              </View>
+              {openSection === 'CARE' ? (
+                <ChevronUp size={20} color={theme.textMuted} />
+              ) : (
+                <ChevronDown size={20} color={theme.textMuted} />
+              )}
+            </TouchableOpacity>
+
+            {openSection === 'CARE' && (
+              <View style={[styles.accordionBody, { borderTopColor: theme.cardSub }]}>
+                {careActions.length === 0 ? (
+                  <Text style={[styles.emptyListText, { color: theme.textMuted }]}>
+                    No hay cuidados agregados.
+                  </Text>
+                ) : (
+                  <View style={{ gap: 8 }}>
+                    {careActions.map((item, idx) => (
+                      <View key={idx} style={[styles.dynamicItemRow, { backgroundColor: theme.cardSub, borderColor: theme.border }]}>
+                        <Text style={[styles.dynamicItemText, { color: theme.text }]}>✓ {item}</Text>
+                        <TouchableOpacity
+                          onPress={() => handleRemoveItem(idx, careActions, setCareActions)}
+                          style={styles.itemDeleteBtn}
+                        >
+                          <Trash2 size={16} color={theme.danger} />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </View>
+                )}
+
+                <View style={{ flexDirection: 'row', gap: 8, marginTop: 12 }}>
+                  <TextInput
+                    style={[styles.customInput, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder, color: theme.text }]}
+                    placeholder="Escribir nuevo cuidado médico..."
+                    placeholderTextColor={theme.textMuted}
+                    value={newCareAction}
+                    onChangeText={setNewCareAction}
+                    onSubmitEditing={() => handleAddItem(newCareAction, setNewCareAction, careActions, setCareActions)}
+                  />
+                  <TouchableOpacity
+                    style={[styles.addCustomBtn, { backgroundColor: theme.primary }]}
+                    onPress={() => handleAddItem(newCareAction, setNewCareAction, careActions, setCareActions)}
+                  >
+                    <Plus size={18} color="#FFFFFF" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          </View>
+
+          {/* 4. ALERGIAS Y URGENCIAS */}
+          <View style={[styles.accordionModule, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            <TouchableOpacity style={styles.accordionHeader} onPress={() => toggleSection('EMERGENCY')}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
+                <View style={[styles.modIcon, { backgroundColor: theme.primaryBg }]}>
+                  <AlertTriangle size={18} color={theme.primary} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.modTitle, { color: theme.text }]}>4. Alergias & Urgencias</Text>
+                  <Text style={[styles.modSub, { color: theme.textMuted }]}>
+                    {emergencyAlerts.length > 0 || allergies ? `${emergencyAlerts.length} alerta(s)` : 'Configurar signos de alerta'}
+                  </Text>
+                </View>
+              </View>
+              {openSection === 'EMERGENCY' ? (
+                <ChevronUp size={20} color={theme.textMuted} />
+              ) : (
+                <ChevronDown size={20} color={theme.textMuted} />
+              )}
+            </TouchableOpacity>
+
+            {openSection === 'EMERGENCY' && (
+              <View style={[styles.accordionBody, { borderTopColor: theme.cardSub }]}>
+                <Text style={[styles.inputLabel, { color: theme.text }]}>Señales de Alarma para Urgencias:</Text>
+                {emergencyAlerts.length === 0 ? (
+                  <Text style={[styles.emptyListText, { color: theme.textMuted, marginVertical: 6 }]}>
+                    No hay señales de alarma registradas.
+                  </Text>
+                ) : (
+                  <View style={{ gap: 8, marginTop: 4 }}>
+                    {emergencyAlerts.map((item, idx) => (
+                      <View key={idx} style={[styles.dynamicItemRow, { backgroundColor: theme.cardSub, borderColor: theme.border }]}>
+                        <Text style={[styles.dynamicItemText, { color: theme.text }]}>⚠️ {item}</Text>
+                        <TouchableOpacity
+                          onPress={() => handleRemoveItem(idx, emergencyAlerts, setEmergencyAlerts)}
+                          style={styles.itemDeleteBtn}
+                        >
+                          <Trash2 size={16} color={theme.danger} />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </View>
+                )}
+
+                <View style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
+                  <TextInput
+                    style={[styles.customInput, { backgroundColor: theme.inputBg, borderColor: theme.inputBorder, color: theme.text }]}
+                    placeholder="Escribir señal de alarma..."
+                    placeholderTextColor={theme.textMuted}
+                    value={newEmergencyAlert}
+                    onChangeText={setNewEmergencyAlert}
+                    onSubmitEditing={() => handleAddItem(newEmergencyAlert, setNewEmergencyAlert, emergencyAlerts, setEmergencyAlerts)}
+                  />
+                  <TouchableOpacity
+                    style={[styles.addCustomBtn, { backgroundColor: theme.primary }]}
+                    onPress={() => handleAddItem(newEmergencyAlert, setNewEmergencyAlert, emergencyAlerts, setEmergencyAlerts)}
