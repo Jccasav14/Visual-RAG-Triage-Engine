@@ -163,3 +163,111 @@ export const DoctorDashboard = ({ user, token, onLogout, onUpdateUser }) => {
               onLogout={onLogout}
             />
           )}
+        </ScrollView>
+      </KeyboardAvoidingView>
+
+      {/* BOTTOM NAVIGATION BAR */}
+      <View style={[styles.bottomBar, { backgroundColor: theme.card, borderTopColor: theme.border }]}>
+        <TouchableOpacity
+          style={styles.tabBtn}
+          onPress={() => setActiveTab('PATIENTS')}
+          activeOpacity={0.7}
+        >
+          <Users size={22} color={activeTab === 'PATIENTS' ? theme.primary : theme.textMuted} />
+          <Text style={[styles.tabBtnLabel, { color: activeTab === 'PATIENTS' ? theme.primary : theme.textMuted }]}>
+            Pacientes
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tabBtn}
+          onPress={() => setActiveTab('RESTRICTIONS')}
+          activeOpacity={0.7}
+        >
+          <FileText size={22} color={activeTab === 'RESTRICTIONS' ? theme.primary : theme.textMuted} />
+          <Text style={[styles.tabBtnLabel, { color: activeTab === 'RESTRICTIONS' ? theme.primary : theme.textMuted }]}>
+            Ficha
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tabBtn}
+          onPress={() => setActiveTab('PROFILE')}
+          activeOpacity={0.7}
+        >
+          <User size={22} color={activeTab === 'PROFILE' ? theme.primary : theme.textMuted} />
+          <Text style={[styles.tabBtnLabel, { color: activeTab === 'PROFILE' ? theme.primary : theme.textMuted }]}>
+            Perfil
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: STATUS_BAR_HEIGHT,
+  },
+  header: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  headerIconContainer: {
+    width: 38,
+    height: 38,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  headerTextGroup: {
+    flex: 1,
+  },
+  headerSubtitle: {
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+  headerTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  patientCountBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 14,
+    borderWidth: 1,
+  },
+  patientCountText: {
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  bottomBar: {
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    paddingVertical: 8,
+    paddingBottom: Platform.OS === 'ios' ? 20 : 8,
+  },
+  tabBtn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 2,
+  },
+  tabBtnLabel: {
+    fontSize: 11,
+    fontWeight: '600',
+  },
+});
+
