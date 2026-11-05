@@ -65,3 +65,70 @@ export const PatientsTab = ({
   };
 
   const handleSearchModalPatients = async (text) => {
+    setModalSearchText(text);
+    setSearchingModal(true);
+    try {
+      const res = await api.searchPatients(text.trim());
+      setModalResults(Array.isArray(res) ? res : []);
+    } catch {
+      setModalResults([]);
+    } finally {
+      setSearchingModal(false);
+    }
+  };
+
+  const handleLinkPatient = async (patientId) => {
+    try {
+      await api.assignPatientToDoctor(user.id, patientId);
+      Alert.alert('Paciente Vinculado', 'El paciente ha sido vinculado exitosamente a tu lista.');
+      setShowAssignModal(false);
+      if (onAssignSuccess) onAssignSuccess();
+    } catch {
+      Alert.alert('Error', 'No se pudo vincular el paciente.');
+    }
+  };
+
+  const handleUnassignPatient = (patient) => {
+    Alert.alert(
+      'Desvincular Paciente',
+      `¿Deseas remover a ${patient.fullName || patient.email} de tus pacientes asignados?`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Desvincular',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await api.unassignPatient(user.id, patient.id);
+              if (onRefresh) onRefresh();
+            } catch {
+              Alert.alert('Error', 'No se pudo desvincular el paciente.');
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.sectionHeaderRow}>
+        <Text style={[styles.sectionHeading, { color: theme.text }]}>Mis Pacientes</Text>
+        <TouchableOpacity
+          style={[styles.assignNewBtn, { backgroundColor: theme.primary }]}
+          onPress={handleOpenAssignModal}
+        >
+          <UserPlus size={16} color="#FFFFFF" />
+          <Text style={styles.assignNewBtnText}>+ Asignar</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* SEARCH BAR */}
+      <View style={[styles.searchBox, { backgroundColor: theme.card, borderColor: theme.inputBorder }]}>
+        <Search size={18} color={theme.textMuted} />
+        <TextInput
+          style={[styles.searchInput, { color: theme.text }]}
+          placeholder="Buscar por nombre, cédula o correo..."
+          placeholderTextColor={theme.textMuted}
+          value={searchFilter}
+          onChangeText={setSearchFilter}
