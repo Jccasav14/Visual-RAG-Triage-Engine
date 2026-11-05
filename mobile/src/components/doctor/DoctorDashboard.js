@@ -81,3 +81,85 @@ export const DoctorDashboard = ({ user, token, onLogout, onUpdateUser }) => {
       setProfileMsg('Perfil actualizado correctamente.');
       setTimeout(() => setProfileMsg(''), 4000);
     } catch {
+      Alert.alert('Error', 'No se pudo actualizar el perfil profesional.');
+    } finally {
+      setSavingProfile(false);
+    }
+  };
+
+  return (
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg }]}>
+      <StatusBar barStyle={theme.statusBarStyle} backgroundColor={theme.headerBg} translucent={false} />
+
+      {/* HEADER */}
+      <View style={[styles.header, { backgroundColor: theme.headerBg, borderBottomColor: theme.border }]}>
+        <View style={styles.headerLeft}>
+          <View style={[styles.headerIconContainer, { backgroundColor: theme.primaryBg }]}>
+            <Stethoscope size={20} color={theme.primary} />
+          </View>
+          <View style={styles.headerTextGroup}>
+            <Text style={[styles.headerSubtitle, { color: theme.primary }]}>PORTAL MÉDICO</Text>
+            <Text style={[styles.headerTitle, { color: theme.text }]} numberOfLines={1}>
+              {user.fullName ? `Dr. ${user.fullName}` : user.email}
+            </Text>
+          </View>
+        </View>
+
+        <View style={[styles.patientCountBadge, { backgroundColor: theme.primaryBg, borderColor: theme.border }]}>
+          <Text style={[styles.patientCountText, { color: theme.primary }]}>
+            {assignedPatients.length} Paciente{assignedPatients.length !== 1 ? 's' : ''}
+          </Text>
+        </View>
+      </View>
+
+      {/* BODY CONTENT */}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          {activeTab === 'PATIENTS' && (
+            <PatientsTab
+              user={user}
+              assignedPatients={assignedPatients}
+              loadingPatients={loadingPatients}
+              selectedPatient={selectedPatient}
+              onSelectPatientForEdit={handleSelectPatientForEdit}
+              onRefresh={loadAssignedPatients}
+              onAssignSuccess={loadAssignedPatients}
+            />
+          )}
+
+          {activeTab === 'RESTRICTIONS' && (
+            <RestrictionsTab
+              token={token}
+              selectedPatient={selectedPatient}
+              assignedPatients={assignedPatients}
+              onSelectPatient={setSelectedPatient}
+            />
+          )}
+
+          {activeTab === 'PROFILE' && (
+            <DoctorProfileTab
+              user={user}
+              fullName={fullName}
+              setFullName={setFullName}
+              specialty={specialty}
+              setSpecialty={setSpecialty}
+              licenseNumber={licenseNumber}
+              setLicenseNumber={setLicenseNumber}
+              hospital={hospital}
+              setHospital={setHospital}
+              phone={phone}
+              setPhone={setPhone}
+              savingProfile={savingProfile}
+              profileMsg={profileMsg}
+              onSaveProfile={handleSaveProfile}
+              onLogout={onLogout}
+            />
+          )}
