@@ -77,3 +77,5 @@ export const getClinicalBadge = (severity, className = '') => {
 // commit step: 143
 
 // commit step: 144
+
+// commit step: 145
